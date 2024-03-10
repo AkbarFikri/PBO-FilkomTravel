@@ -1,13 +1,23 @@
 public class Vehicle {
-    String id;
+//    kayaknya id gausah soalnya plat udah unique
+//    String id;
     String nama;
     String platKendaraan;
     boolean isRent;
     int kapasitas;
 
-    public String getId() {
-        return id;
+    String jenis;
+
+    public Vehicle() {
     }
+
+    public Vehicle(String nama, String platKendaraan, int kapasitas, String jenis){
+        this.nama = nama;
+        this.platKendaraan = platKendaraan;
+        this.kapasitas = kapasitas;
+        this.jenis = jenis;
+    }
+
 
     public String getNama() {
         return nama;

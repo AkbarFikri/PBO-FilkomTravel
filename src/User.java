@@ -5,7 +5,7 @@ public class User {
     public User(){
 
     }
-
+//    Ini password
     public User (String username, String password){
         this.username = username;
         this.password = password;

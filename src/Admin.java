@@ -4,7 +4,7 @@ public class Admin extends User{
     }
 
     public void removeMember(Member person) {
-        // TODO Implement me!
+
     }
 
     public void addKendaraan(Vehicle kendaraan) {
