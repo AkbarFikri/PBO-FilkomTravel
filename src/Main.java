@@ -10,19 +10,19 @@ public class Main {
 
     private static void pesanTravel(Member user) {
         int iterator = 1;
-        System.out.printf("|No.|Nama kendaraan           |Kapasitas |Plat Kendaraan   |Jenis     |Harga   |\n");
-        System.out.println("--------------------------------------------------------------------------------");
+        System.out.printf("|No.|Nama kendaraan           |Kapasitas |Plat Kendaraan   |Jenis     |Harga       |\n");
+        System.out.println("------------------------------------------------------------------------------------");
         for (int i = 0; i < tumpukanKendaraan.size(); i++) {
             Vehicle dummy = tumpukanKendaraan.get(i);
             if (dummy.getIsRent()){
                 continue;
             }else{
-                System.out.printf("|%-2d.|%-25s|%-10s|%-17s|%-10s|%-,8d|\n", iterator, dummy.getNama(), dummy.getKapasitas(), dummy.getPlatKendaraan(), dummy.getJenis(), dummy.getHarga());
+                System.out.printf("|%-2d.|%-25s|%-10s|%-17s|%-10s|Rp. %-,8d|\n", iterator, dummy.getNama(), dummy.getKapasitas(), dummy.getPlatKendaraan(), dummy.getJenis(), dummy.getHarga());
                 iterator++;
             }
         }
         iterator = 1;
-        System.out.print("kendaraan yang disewa: ");
+        System.out.print("Pilih kendaraan yang ingin disewa: ");
         int choose = in.nextInt();
         System.out.print("Lama sewa (dalam hari): ");
         int lama = in.nextInt();
@@ -40,7 +40,7 @@ public class Main {
             }
 
         }
-        System.out.print("apakah ingin lanjut? (y/n): ");
+        System.out.print("Apakah ingin lanjut? (y/n): ");
         dec = in.next().charAt(0);
         iterator = 1;
     }
@@ -72,11 +72,11 @@ public class Main {
         char dec='y';
         int choose;
         do {
-            System.out.println("menu: ");
+            System.out.printf("\nFilkom Travel Menu: \n");
             System.out.println("1. Pesan travel");
-            System.out.println("2. batalkan travel");
+            System.out.println("2. Batalkan travel");
             System.out.println("3. History pemesanan");
-            System.out.println("0. Exit");
+            System.out.println("0. Exit\n");
             System.out.print("Masukkan pilihan menu: ");
             choose = in.nextInt();
             switch (choose) {
