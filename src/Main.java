@@ -41,13 +41,24 @@ public class Main {
                     iterator++;
                 }
             }
+            iterator = 1;
             System.out.print("kendaraan yang disewa: ");
             int choose = in.nextInt();
             System.out.print("Lama sewa (dalam hari): ");
             int lama = in.nextInt();
-            System.out.println(iterator);
-            System.out.println(tumpukanKendaraan.length);
-            user.pesanTravel(tumpukanKendaraan[choose+(tumpukanKendaraan.length-(iterator-1))-1], lama, user);
+            for (int i = 0; i < tumpukanKendaraan.length; i++) {
+                if (tumpukanKendaraan[i].isRent){
+                    iterator++;
+                    continue;
+                }else{
+                    if (iterator>=choose){
+                        user.pesanTravel(tumpukanKendaraan[iterator-1], lama, user);
+                        break;
+                    }
+                    iterator++;
+                }
+            }
+
             System.out.println("apakah ingin lanjut? (y/n)");
             dec = in.next().charAt(0);
             iterator = 1;
