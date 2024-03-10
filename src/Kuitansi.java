@@ -20,7 +20,10 @@ public class Kuitansi {
         System.out.println("Nama: "+this.pemesan.getUsername());
         System.out.println("Tanggal: "+tanggalPesan);
         System.out.println("Lama Memesan: "+lamaPesan+" hari");
-        System.out.println("Tanggal kembali: "+tanggalPesan.plusDays(lamaPesan)+"\n");
+        System.out.println("Tanggal kembali: "+tanggalPesan.plusDays(lamaPesan));
+        System.out.println("Jenis mobil: "+kendaraan.jenis);
+        System.out.println("Kapasitas: "+kendaraan.kapasitas);
+        System.out.println("Plat: "+kendaraan.platKendaraan+"\n");
 
     }
 
