@@ -1,22 +1,18 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Member extends User{
-    private List<Kuitansi> historyPemesanan;
-
+    private List<Kuitansi> historyPemesanan = new ArrayList<>();
 
     public Member (String username, String password){
         this.username = username;
         this.password = password;
     }
-    public void pesanTravel(Vehicle kendaraan,int lamaSewa, User pemesan) {
-        Kuitansi kuitansi = new Kuitansi();
-        kuitansi.kendaraan = kendaraan;
-        kuitansi.tanggalPesan = LocalDate.now();
-        kuitansi.lamaPesan = lamaSewa;
-        kuitansi.pemesan = pemesan;
-        kuitansi.kendaraan.isRent = true;
+    public void pesanTravel(Vehicle kendaraan,int lamaSewa, Member pemesan) {
+        Kuitansi kuitansi = new Kuitansi(kendaraan, lamaSewa, pemesan);
+        historyPemesanan.add(kuitansi);
         kuitansi.cetak();
     }
 

@@ -2,13 +2,18 @@ import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.*;
 public class Kuitansi {
-    String id;
-    User pemesan;
-    LocalDate tanggalPesan;
-    int lamaPesan;
-    Vehicle kendaraan;
+    private String id;
+    private User pemesan;
+    private LocalDate tanggalPesan;
+    private int lamaPesan;
+    private Vehicle kendaraan;
 
-    public Kuitansi(){}
+    public Kuitansi(Vehicle kendaraan,int lamaSewa, User pemesan){
+        this.kendaraan = kendaraan;
+        this.tanggalPesan = LocalDate.now();
+        this.lamaPesan = lamaSewa;
+        this.pemesan = pemesan;
+    }
     public Kuitansi(User pemesan, LocalDate tanggalPesan, int lamaPesan){
         this.pemesan = pemesan;
         this.tanggalPesan = tanggalPesan;
@@ -16,14 +21,18 @@ public class Kuitansi {
     }
 
     public void cetak(){
-        System.out.println("\nKuitansi pemesanan:");
-        System.out.println("Nama: "+this.pemesan.getUsername());
-        System.out.println("Tanggal: "+tanggalPesan);
-        System.out.println("Lama Memesan: "+lamaPesan+" hari");
-        System.out.println("Tanggal kembali: "+tanggalPesan.plusDays(lamaPesan));
-        System.out.println("Jenis mobil: "+kendaraan.jenis);
-        System.out.println("Kapasitas: "+kendaraan.kapasitas);
-        System.out.println("Plat: "+kendaraan.platKendaraan+"\n");
+        System.out.println("|-------------------------------------------|");
+        System.out.println("|\t\t    Kuitansi Pemesanan   \t\t\t|");
+        System.out.println("|-------------------------------------------|");
+        System.out.printf("|%-20s : %-17s\t|\n", "Nama Pemesan", this.pemesan.getUsername());
+        System.out.printf("|%-20s : %-17s\t|\n", "Tanggal", this.tanggalPesan);
+        System.out.printf("|%-20s : %-17s\t|\n", "Lama Sewa", this.lamaPesan + " hari");
+        System.out.printf("|%-20s : %-17s\t|\n", "Tanggal Kembali", this.tanggalPesan.plusDays(lamaPesan));
+        System.out.printf("|%-20s : %-17s\t|\n", "Jenis Mobil", this.kendaraan.getJenis());
+        System.out.printf("|%-20s : %-17s\t|\n", "Kapasitas", this.kendaraan.getKapasitas());
+        System.out.printf("|%-20s : %-,17d\t|\n", "Harga", this.kendaraan.getHarga());
+        System.out.printf("|%-20s : %-17s\t|\n", "Plat", this.kendaraan.getPlatKendaraan());
+        System.out.println("|___________________________________________|");
 
     }
 
