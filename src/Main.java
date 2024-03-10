@@ -1,6 +1,8 @@
 import java.util.*;
 
+
 public class Main {
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
@@ -8,10 +10,10 @@ public class Main {
 
         for (int i = 0; i < tumpukanKendaraan.length; i++) {
             Vehicle dump = new Vehicle();
-            dump.id = "aosjdhoaisj";
             dump.isRent = false;
             dump.kapasitas = 5;
             dump.nama = "Mobil percobaan";
+            dump.jenis = "Kecil";
             tumpukanKendaraan[i] = dump;
         }
 

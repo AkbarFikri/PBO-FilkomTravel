@@ -13,15 +13,4 @@ public class Member extends User{
         Kuitansi kuitansi = new Kuitansi();
     }
 
-    public void batalkanPesanan() {
-        // TODO Implement me!
-    }
-
-    public List<Kuitansi> getHistoryPemesanan() {
-        return historyPemesanan;
-    }
-
-    public void setHistoryPemesanan(List<Kuitansi> historyPemesanan) {
-        this.historyPemesanan = historyPemesanan;
-    }
 }
