@@ -45,7 +45,9 @@ public class Main {
             int choose = in.nextInt();
             System.out.print("Lama sewa (dalam hari): ");
             int lama = in.nextInt();
-            user.pesanTravel(tumpukanKendaraan[choose-1], lama, user);
+            System.out.println(iterator);
+            System.out.println(tumpukanKendaraan.length);
+            user.pesanTravel(tumpukanKendaraan[choose+(tumpukanKendaraan.length-(iterator-1))-1], lama, user);
             System.out.println("apakah ingin lanjut? (y/n)");
             dec = in.next().charAt(0);
             iterator = 1;
