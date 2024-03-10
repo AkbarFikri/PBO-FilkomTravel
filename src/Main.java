@@ -1,3 +1,4 @@
+import javax.imageio.metadata.IIOMetadataFormatImpl;
 import java.util.*;
 
 
@@ -10,10 +11,12 @@ public class Main {
 
         for (int i = 0; i < tumpukanKendaraan.length; i++) {
             Vehicle dump = new Vehicle();
+            dump.nama = "dummy "+ String.valueOf(i);
             dump.isRent = false;
             dump.kapasitas = 5;
             dump.nama = "Mobil percobaan";
             dump.jenis = "Kecil";
+            dump.platKendaraan = String.valueOf(i);
             tumpukanKendaraan[i] = dump;
         }
 
@@ -24,33 +27,30 @@ public class Main {
         System.out.print("Password: ");
         String passwordIn = in.next();
 
-        User user = new Member(usernameIn, passwordIn);
-        int choose;
+        Member user = new Member(usernameIn, passwordIn);
+        char dec='y';
         do {
-            System.out.println("menu: ");
-            System.out.println("1. Pesan travel");
-            System.out.println("2. batalkan travel");
-            System.out.println("3. History pemesanan");
-            System.out.println("0. Exit");
-            System.out.print("Masukkan pilihan menu: ");
-            choose = in.nextInt();
-            switch (choose) {
-                case 1:
-                    System.out.println("Pilih kendaraan yang anda inginkan");
-                    int iterator = 1;
-                    for (Vehicle dump:tumpukanKendaraan) {
-                        System.out.printf("%d. %s\n", iterator, dump.nama);
-                        iterator++;
-                    }
-                    iterator = 1;
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
+            int iterator = 1;
+            for (int i = 0; i < tumpukanKendaraan.length; i++) {
+                if (tumpukanKendaraan[i].isRent){
+                    continue;
+                }else{
+                    System.out.println(iterator + ". " + tumpukanKendaraan[i].nama);
+                    System.out.println("kapasitas: " + tumpukanKendaraan[i].kapasitas);
+                    System.out.println("plat: "+tumpukanKendaraan[i].platKendaraan);;
+                    iterator++;
+                }
             }
-        } while(choose != 0);
+            System.out.print("kendaraan yang disewa: ");
+            int choose = in.nextInt();
+            System.out.print("\nLama sewa (dalam hari): ");
+            int lama = in.nextInt();
+            user.pesanTravel(tumpukanKendaraan[choose], lama, user);
+            System.out.println("apakah ingin lanjut? (y/n)");
+            dec = in.next().charAt(0);
+            iterator = 1;
+        } while(dec != 'n');
 
-
+        System.out.println("Terimakasih telah memakai layanan kami!");
     }
 }

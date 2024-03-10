@@ -11,7 +11,7 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String nama, String platKendaraan, int Kapasitas, String jenis){
+    public Vehicle(String nama, String platKendaraan, int kapasitas, String jenis){
         this.nama = nama;
         this.platKendaraan = platKendaraan;
         this.kapasitas = kapasitas;
