@@ -1,3 +1,5 @@
+package entity;
+
 public class Vehicle {
     private String nama;
     private String platKendaraan;
