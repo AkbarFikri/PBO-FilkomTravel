@@ -26,7 +26,7 @@ public abstract class Customer {
 
     public abstract void makeOrder();
 
-    public void confirmPay(){
+    public void confirmPay(int nomorPesanan){
         return;
     }
 }
