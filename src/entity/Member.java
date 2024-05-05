@@ -1,7 +1,15 @@
 package entity;
 
-import domain.Pelanggan;
+import domain.Customer;
 
-public class Member extends Pelanggan {
-    // TODO make a implementation of Guest class and fulfill requirement in case study 2
+import java.time.LocalDate;
+
+public class Member extends Customer {
+
+    LocalDate dateCreated;
+
+    public void makeOrder() {
+
+    }
+
 }
