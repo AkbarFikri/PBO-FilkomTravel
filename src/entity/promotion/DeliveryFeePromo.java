@@ -3,6 +3,10 @@ package entity.promotion;
 import domain.Promotion;
 
 public class DeliveryFeePromo extends Promotion {
+    public DeliveryFeePromo(String name, String syarat) {
+        super(name, syarat);
+    }
+
     @Override
     public boolean isCustomerEligible(Object x) {
         return false;

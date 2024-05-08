@@ -1,9 +1,12 @@
 import domain.Customer;
+import domain.Promotion;
 import entity.Guest;
 import entity.Member;
 import entity.Vehicle;
+import entity.promotion.CashbackPromo;
+import entity.promotion.DeliveryFeePromo;
+import entity.promotion.PercentOffPromo;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,6 +15,7 @@ public class Main {
     static Customer current;
     static ArrayList<Member> members = new ArrayList<Member>();
     static ArrayList<Vehicle> vehicleList = new ArrayList<>();
+    static ArrayList<Promotion> promoList = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("Selamat datang di Filkom Travel!");
@@ -50,6 +54,7 @@ public class Main {
     }
 
     public static void GuestMenu() {
+        clearScreen();
         System.out.println("== Masukkan data diri anda ==");
         System.out.print("Nama depan : ");
         String namaDepan = in.nextLine();
@@ -93,10 +98,26 @@ public class Main {
                     current.makeOrder(vehicleList, lama, choose);
                     break;
                 case 2:
-
+                    System.out.printf("|No.|Nama Promo                    |Syarat Promo                                      |\n");
+                    System.out.println("---------------------------------------------------------------------------------------");
+                    for (int i = 0; i < promoList.size(); i++) {
+                        Promotion dummy = promoList.get(i);
+                        System.out.printf("|%-2d.|%-30s|%-50s|\n", i + 1, dummy.getName(), dummy.getSyarat());
+                    }
                     break;
                 case 3:
-
+                    int iterator3 = 1;
+                    System.out.printf("|No.|Nama kendaraan           |Kapasitas |Plat Kendaraan   |Jenis     |Harga       |\n");
+                    System.out.println("------------------------------------------------------------------------------------");
+                    for (int i = 0; i < vehicleList.size(); i++) {
+                        Vehicle dummy = vehicleList.get(i);
+                        if (dummy.getIsRent()){
+                            continue;
+                        }else{
+                            System.out.printf("|%-2d.|%-25s|%-10s|%-17s|%-10s|Rp. %-,8d|\n", iterator3, dummy.getNama(), dummy.getKapasitas(), dummy.getPlatKendaraan(), dummy.getJenis(), dummy.getHarga());
+                            iterator3++;
+                        }
+                    }
                     break;
                 default:
                     System.out.println("Pilihan yang anda masukkan salah!");
@@ -122,6 +143,10 @@ public class Main {
             dump.setHarga(jenis.equals("Sedang") ? 300_000 : 150_000);
             vehicleList.add(dump);
         }
+
+        promoList.add(new CashbackPromo("Cashback sebesar 10.000", "Total harga pemesanan lebih dari 150.000"));
+        promoList.add(new PercentOffPromo("Diskon pesanan sebesar 10%", "Total pesanan minimal 300.000"));
+        promoList.add(new DeliveryFeePromo("Diskon ongkir sebesar 20.000", "Entah ini apaan"));
     }
 
     public static void clearScreen() {
