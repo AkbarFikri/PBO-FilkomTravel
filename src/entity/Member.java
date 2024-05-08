@@ -1,7 +1,15 @@
 package entity;
 
-import domain.Pelanggan;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import domain.Customer;
 
-public class Member extends Pelanggan {
-    // TODO make a implementation of Guest class and fulfill requirement in case study 2
+public class Member extends Customer {
+
+    LocalDate dateCreated;
+
+    @Override
+    public void makeOrder(ArrayList<Vehicle> vehicleList, int longTime, int choose) {
+
+    }
 }
