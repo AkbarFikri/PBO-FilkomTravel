@@ -74,6 +74,7 @@ public class Main {
             System.out.println("0. Exit");
             System.out.print("Masukkan pilihan menu anda : ");
             int pilihan = in.nextInt();
+            in.nextLine();
             switch (pilihan) {
                 case 0:
                     isFinishGuestMenu = true;
@@ -104,6 +105,13 @@ public class Main {
                         Promotion dummy = promoList.get(i);
                         System.out.printf("|%-2d.|%-30s|%-50s|\n", i + 1, dummy.getName(), dummy.getSyarat());
                     }
+                    System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
+                    String check = in.nextLine();
+                    if (check.equals("y")) {
+                        break;
+                    } else {
+                        isFinishGuestMenu = true;
+                    }
                     break;
                 case 3:
                     int iterator3 = 1;
@@ -117,6 +125,13 @@ public class Main {
                             System.out.printf("|%-2d.|%-25s|%-10s|%-17s|%-10s|Rp. %-,8d|\n", iterator3, dummy.getNama(), dummy.getKapasitas(), dummy.getPlatKendaraan(), dummy.getJenis(), dummy.getHarga());
                             iterator3++;
                         }
+                    }
+                    System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
+                    String check2 = in.nextLine();
+                    if (check2.equals("y")) {
+                        break;
+                    } else {
+                        isFinishGuestMenu = true;
                     }
                     break;
                 default:
