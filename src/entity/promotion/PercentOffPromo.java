@@ -23,7 +23,7 @@ public class PercentOffPromo extends Promotion {
     }
 
     @Override
-    public double getTotalPrice() {
+    public double getTotalPrice(Object x) {
         return 0;
     }
 

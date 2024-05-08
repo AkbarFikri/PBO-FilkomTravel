@@ -23,7 +23,7 @@ public class DeliveryFeePromo extends Promotion {
     }
 
     @Override
-    public double getTotalPrice() {
+    public double getTotalPrice(Object x) {
         return 0;
     }
 

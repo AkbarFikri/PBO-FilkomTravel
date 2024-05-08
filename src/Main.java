@@ -2,6 +2,7 @@ import domain.Customer;
 import domain.Promotion;
 import entity.Guest;
 import entity.Member;
+import entity.Order;
 import entity.Vehicle;
 import entity.promotion.CashbackPromo;
 import entity.promotion.DeliveryFeePromo;
@@ -80,14 +81,17 @@ public class Main {
                     break;
                 case 1:
                     int iterator = 1;
-                    System.out.printf("|No.|Nama kendaraan           |Kapasitas |Plat Kendaraan   |Jenis     |Harga       |\n");
-                    System.out.println("------------------------------------------------------------------------------------");
+                    System.out.printf(
+                            "|No.|Nama kendaraan           |Kapasitas |Plat Kendaraan   |Jenis     |Harga       |\n");
+                    System.out.println(
+                            "------------------------------------------------------------------------------------");
                     for (int i = 0; i < vehicleList.size(); i++) {
                         Vehicle dummy = vehicleList.get(i);
-                        if (dummy.getIsRent()){
+                        if (dummy.getIsRent()) {
                             continue;
-                        }else{
-                            System.out.printf("|%-2d.|%-25s|%-10s|%-17s|%-10s|Rp. %-,8d|\n", iterator, dummy.getNama(), dummy.getKapasitas(), dummy.getPlatKendaraan(), dummy.getJenis(), dummy.getHarga());
+                        } else {
+                            System.out.printf("|%-2d.|%-25s|%-10s|%-17s|%-10s|Rp. %-,8d|\n", iterator, dummy.getNama(),
+                                    dummy.getKapasitas(), dummy.getPlatKendaraan(), dummy.getJenis(), dummy.getHarga());
                             iterator++;
                         }
                     }
@@ -95,11 +99,15 @@ public class Main {
                     int choose = in.nextInt();
                     System.out.print("Lama sewa (dalam hari): ");
                     int lama = in.nextInt();
+                    Guest dummy2 = (Guest) current;
                     current.makeOrder(vehicleList, lama, choose);
+                    OrderMenu(dummy2.getLastOrder());
                     break;
                 case 2:
-                    System.out.printf("|No.|Nama Promo                    |Syarat Promo                                      |\n");
-                    System.out.println("---------------------------------------------------------------------------------------");
+                    System.out.printf(
+                            "|No.|Nama Promo                    |Syarat Promo                                      |\n");
+                    System.out.println(
+                            "---------------------------------------------------------------------------------------");
                     for (int i = 0; i < promoList.size(); i++) {
                         Promotion dummy = promoList.get(i);
                         System.out.printf("|%-2d.|%-30s|%-50s|\n", i + 1, dummy.getName(), dummy.getSyarat());
@@ -114,14 +122,17 @@ public class Main {
                     break;
                 case 3:
                     int iterator3 = 1;
-                    System.out.printf("|No.|Nama kendaraan           |Kapasitas |Plat Kendaraan   |Jenis     |Harga       |\n");
-                    System.out.println("------------------------------------------------------------------------------------");
+                    System.out.printf(
+                            "|No.|Nama kendaraan           |Kapasitas |Plat Kendaraan   |Jenis     |Harga       |\n");
+                    System.out.println(
+                            "------------------------------------------------------------------------------------");
                     for (int i = 0; i < vehicleList.size(); i++) {
                         Vehicle dummy = vehicleList.get(i);
-                        if (dummy.getIsRent()){
+                        if (dummy.getIsRent()) {
                             continue;
-                        }else{
-                            System.out.printf("|%-2d.|%-25s|%-10s|%-17s|%-10s|Rp. %-,8d|\n", iterator3, dummy.getNama(), dummy.getKapasitas(), dummy.getPlatKendaraan(), dummy.getJenis(), dummy.getHarga());
+                        } else {
+                            System.out.printf("|%-2d.|%-25s|%-10s|%-17s|%-10s|Rp. %-,8d|\n", iterator3, dummy.getNama(),
+                                    dummy.getKapasitas(), dummy.getPlatKendaraan(), dummy.getJenis(), dummy.getHarga());
                             iterator3++;
                         }
                     }
@@ -155,10 +166,94 @@ public class Main {
 
     }
 
+    public static void OrderMenu(Order order) {
+        boolean isFinishOrderMenu = false;
+        do {
+            clearScreen();
+            System.out.println("Pilihan Menu Order: ");
+            System.out.println("1. Checkout");
+            System.out.println("2. Gunakan Promo");
+            System.out.println("3. Bayar");
+            System.out.println("0. Exit");
+            System.out.print("Masukkan pilihan menu anda : ");
+            int pilihan = in.nextInt();
+            in.nextLine();
+            switch (pilihan) {
+                case 0:
+                    isFinishOrderMenu = true;
+                    break;
+                case 1:
+                    order.checkOut();
+                    isFinishOrderMenu = true;
+                    break;
+                case 2:
+                    System.out.printf(
+                            "|No.|Nama Promo                    |Syarat Promo                                      |\n");
+                    System.out.println(
+                            "---------------------------------------------------------------------------------------");
+                    for (int i = 0; i < 1; i++) {
+                        Promotion dummy = promoList.get(i);
+                        System.out.printf("|%-2d.|%-30s|%-50s|\n", i + 1, dummy.getName(), dummy.getSyarat());
+                    }
+                    System.out.print("Pilih promo yang ingin digunakan: ");
+                    int promo = in.nextInt();
+                    in.nextLine();
+                    order.applyPromo(promoList.get(promo - 1), current);
+                    System.out.println("Promo berhasil digunakan.");
+                    System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
+                    String check = in.nextLine();
+                    if (check.equals("y")) {
+                        break;
+                    } else {
+                        isFinishOrderMenu = true;
+                    }
+                    break;
+                case 3:
+                    int iterator3 = 1;
+                    System.out.printf(
+                            "|No.|Nama kendaraan           |Kapasitas |Plat Kendaraan   |Jenis     |Harga       |\n");
+                    System.out.println(
+                            "------------------------------------------------------------------------------------");
+                    for (int i = 0; i < vehicleList.size(); i++) {
+                        Vehicle dummy = vehicleList.get(i);
+                        if (dummy.getIsRent()) {
+                            continue;
+                        } else {
+                            System.out.printf("|%-2d.|%-25s|%-10s|%-17s|%-10s|Rp. %-,8d|\n", iterator3, dummy.getNama(),
+                                    dummy.getKapasitas(), dummy.getPlatKendaraan(), dummy.getJenis(), dummy.getHarga());
+                            iterator3++;
+                        }
+                    }
+                    System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
+                    String check2 = in.nextLine();
+                    if (check2.equals("y")) {
+                        break;
+                    } else {
+                        isFinishOrderMenu = true;
+                    }
+                    break;
+                case 4:
+                    Guest dummy = (Guest) current;
+                    dummy.printListOrder();
+                    System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
+                    String check3 = in.nextLine();
+                    if (check3.equals("y")) {
+                        break;
+                    } else {
+                        isFinishOrderMenu = true;
+                    }
+                    break;
+                default:
+                    System.out.println("Pilihan yang anda masukkan salah!");
+                    break;
+            }
+        } while (!isFinishOrderMenu);
+    }
+
     public static void InitData() {
         for (int i = 0; i < 5; i++) {
             Vehicle dump = new Vehicle();
-            dump.setNama("Mobil "+ (i + 1));
+            dump.setNama("Mobil " + (i + 1));
             dump.setRent(false);
             int dummyKapasitas = (int) (3 + (Math.random() * 10));
             dump.setKapasitas(dummyKapasitas);
@@ -169,7 +264,7 @@ public class Main {
             vehicleList.add(dump);
         }
 
-        promoList.add(new CashbackPromo("Cashback sebesar 10.000", "Total harga pemesanan lebih dari 150.000"));
+        promoList.add(new CashbackPromo("Cashback sebesar 10.000", "Total harga pemesanan lebih dari 150.000", 10000));
         promoList.add(new PercentOffPromo("Diskon pesanan sebesar 10%", "Total pesanan minimal 300.000"));
         promoList.add(new DeliveryFeePromo("Diskon ongkir sebesar 20.000", "Entah ini apaan"));
     }

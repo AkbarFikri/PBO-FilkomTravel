@@ -1,4 +1,5 @@
 package entity;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -12,11 +13,11 @@ public class Guest extends Customer {
         int iterator = 1;
         Vehicle vehicle = null;
         for (int i = 0; i < vehicleList.size(); i++) {
-            if (vehicleList.get(i).getIsRent()){
+            if (vehicleList.get(i).getIsRent()) {
                 iterator++;
                 continue;
-            }else{
-                if (iterator >= choose){
+            } else {
+                if (iterator >= choose) {
                     vehicle = vehicleList.get(iterator - 1);
                     vehicleList.get(iterator - 1).setRent(true);
                     break;
@@ -34,7 +35,7 @@ public class Guest extends Customer {
     }
 
     public int getLastOrderNo() {
-        if (orderList.isEmpty()){
+        if (orderList.isEmpty()) {
             return 0;
         }
         return orderList.peek().getOrderNo();
@@ -45,7 +46,12 @@ public class Guest extends Customer {
         System.out.println("--------------------------------------------------");
         for (int i = 0; i < orderList.size(); i++) {
             Order dummy = orderList.get(i);
-            System.out.printf("|%-2d.|%-14d|%-12s| Rp.%-,12d|\n", i+1, dummy.getOrderNo(), dummy.getStatus(), dummy.getTotalPrice());
+            System.out.printf("|%-2d.|%-14d|%-12s| Rp.%-,12d|\n", i + 1, dummy.getOrderNo(), dummy.getStatus(),
+                    dummy.getTotalPrice());
         }
+    }
+
+    public Order getLastOrder() {
+        return orderList.peek();
     }
 }
