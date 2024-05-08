@@ -27,9 +27,9 @@ public abstract class Customer {
     public String getFullName() {
         return firstName + " " + lastName;
     }
-
+    
     public abstract void makeOrder(ArrayList<Vehicle> vehicleList, int longTime, int choose);
-
+    
     public void confirmPay(int nomorPesanan){
         return;
     }
