@@ -20,6 +20,7 @@ public class Order {
         this.orderNo = lastOrderNo + 1;
         this.originalPrice = vehicle.getHarga();
         this.totalPrice = vehicle.getHarga();
+        this.status = OrderStatus.UNPAID;
     }
 
     public String getStatus() {
@@ -41,6 +42,8 @@ public class Order {
     public void printDetails() {
         if (isCheckOut) {
             System.out.println();
+        } else {
+            System.out.println("Anda perlu checkout terlebih dahulu untuk melihat details dari pesanan anda!");
         }
     }
 
@@ -56,4 +59,7 @@ public class Order {
         return orderNo;
     }
 
+    public int getTotalPrice() {
+        return totalPrice;
+    }
 }

@@ -38,11 +38,9 @@ public class Main {
                     break;
                 case 1:
                     GuestMenu();
-                    isFinish = true;
                     break;
                 case 2:
                     MemberMenu();
-                    isFinish = true;
                     break;
                 default:
                     System.out.println("Pilihan yang anda masukkan salah!");
@@ -71,6 +69,7 @@ public class Main {
             System.out.println("1. Pesan Travel");
             System.out.println("2. Lihat Promo");
             System.out.println("3. Lihat Mobil");
+            System.out.println("4. Lihat Order");
             System.out.println("0. Exit");
             System.out.print("Masukkan pilihan menu anda : ");
             int pilihan = in.nextInt();
@@ -129,6 +128,17 @@ public class Main {
                     System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
                     String check2 = in.nextLine();
                     if (check2.equals("y")) {
+                        break;
+                    } else {
+                        isFinishGuestMenu = true;
+                    }
+                    break;
+                case 4:
+                    Guest dummy = (Guest) current;
+                    dummy.printListOrder();
+                    System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
+                    String check3 = in.nextLine();
+                    if (check3.equals("y")) {
                         break;
                     } else {
                         isFinishGuestMenu = true;

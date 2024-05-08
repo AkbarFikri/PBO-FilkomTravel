@@ -39,4 +39,13 @@ public class Guest extends Customer {
         }
         return orderList.peek().getOrderNo();
     }
+
+    public void printListOrder() {
+        System.out.println("|No.|Nomor Pesanan |Status      |Total Harga     |");
+        System.out.println("--------------------------------------------------");
+        for (int i = 0; i < orderList.size(); i++) {
+            Order dummy = orderList.get(i);
+            System.out.printf("|%-2d.|%-14d|%-12s| Rp.%-,12d|\n", i+1, dummy.getOrderNo(), dummy.getStatus(), dummy.getTotalPrice());
+        }
+    }
 }
