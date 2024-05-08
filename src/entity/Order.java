@@ -38,7 +38,9 @@ public class Order {
 
     public void checkOut() {
         this.isCheckOut = true;
-        this.status = OrderStatus.SUCCESSFUL;
+        if (this.status != OrderStatus.SUCCESSFUL) {
+            // TODO
+        }
         System.out.println("Checkout berhasil!");
         printDetails();
 
@@ -46,7 +48,19 @@ public class Order {
 
     public void printDetails() {
         if (isCheckOut) {
-            System.out.println();
+            System.out.println("\n|-------------------------------------------|");
+            System.out.println("|\t\t\t    Order Details   \t\t\t|");
+            System.out.println("|-------------------------------------------|");
+            System.out.printf("|%-20s : %-17s\t|\n", "Tanggal", this.orderDate);
+            System.out.printf("|%-20s : %-17s\t|\n", "Lama Sewa", this.rentalTime + " hari");
+            System.out.printf("|%-20s : %-17s\t|\n", "Jenis Mobil", this.vehicle.getJenis());
+            System.out.printf("|%-20s : %-17s\t|\n", "Kapasitas", this.vehicle.getKapasitas());
+            System.out.printf("|%-20s : %-17s\t|\n", "Status", this.getStatus());
+            System.out.printf("|%-20s : Rp. %-,13d\t|\n", "Harga Awal", this.originalPrice);
+            System.out.printf("|%-20s : Rp. %-,13d\t|\n", "Total Promo", this.promoPrice);
+            System.out.printf("|%-20s : Rp. %-,13d\t|\n", "Total Harga", this.totalPrice);
+            System.out.printf("|%-20s : %-17s\t|\n", "Plat", this.vehicle.getPlatKendaraan());
+            System.out.println("|___________________________________________|\n");
         } else {
             System.out.println("Anda perlu checkout terlebih dahulu untuk melihat details dari pesanan anda!");
         }
@@ -63,7 +77,9 @@ public class Order {
             return;
         }
 
-        this.totalPrice = (int) promo.getTotalPrice(this);
+        this.promoPrice = this.totalPrice - (int) promo.getTotalPrice(this);
+        this.totalPrice = this.totalPrice - this.promoPrice;
+        this.promotion = promo;
     }
 
     public void pay() {

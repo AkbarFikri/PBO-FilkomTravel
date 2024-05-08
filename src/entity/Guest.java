@@ -51,6 +51,10 @@ public class Guest extends Customer {
         }
     }
 
+    public Order getOrderByIndex(int index) {
+        return orderList.get(index - 1);
+    }
+
     public Order getLastOrder() {
         return orderList.peek();
     }

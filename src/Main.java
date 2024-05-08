@@ -104,10 +104,8 @@ public class Main {
                     OrderMenu(dummy2.getLastOrder());
                     break;
                 case 2:
-                    System.out.printf(
-                            "|No.|Nama Promo                    |Syarat Promo                                      |\n");
-                    System.out.println(
-                            "---------------------------------------------------------------------------------------");
+                    System.out.printf("|No.|Nama Promo                    |Syarat Promo                                      |\n");
+                    System.out.println("---------------------------------------------------------------------------------------");
                     for (int i = 0; i < promoList.size(); i++) {
                         Promotion dummy = promoList.get(i);
                         System.out.printf("|%-2d.|%-30s|%-50s|\n", i + 1, dummy.getName(), dummy.getSyarat());
@@ -147,6 +145,11 @@ public class Main {
                 case 4:
                     Guest dummy = (Guest) current;
                     dummy.printListOrder();
+                    System.out.print("Pilih order yang ingin di lihat : ");
+                    int choose2 = in.nextInt();
+                    in.nextLine();
+                    Order order = dummy.getOrderByIndex(choose2);
+                    order.printDetails();
                     System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
                     String check3 = in.nextLine();
                     if (check3.equals("y")) {
@@ -184,7 +187,13 @@ public class Main {
                     break;
                 case 1:
                     order.checkOut();
-                    isFinishOrderMenu = true;
+                    System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
+                    String check = in.nextLine();
+                    if (check.equals("y")) {
+                        isFinishOrderMenu = true;
+                    } else {
+                        isFinishOrderMenu = true;
+                    }
                     break;
                 case 2:
                     System.out.printf(
@@ -201,46 +210,19 @@ public class Main {
                     order.applyPromo(promoList.get(promo - 1), current);
                     System.out.println("Promo berhasil digunakan.");
                     System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
-                    String check = in.nextLine();
-                    if (check.equals("y")) {
+                    String check1 = in.nextLine();
+                    if (check1.equals("y")) {
                         break;
                     } else {
-                        isFinishOrderMenu = true;
                     }
                     break;
                 case 3:
-                    int iterator3 = 1;
-                    System.out.printf(
-                            "|No.|Nama kendaraan           |Kapasitas |Plat Kendaraan   |Jenis     |Harga       |\n");
-                    System.out.println(
-                            "------------------------------------------------------------------------------------");
-                    for (int i = 0; i < vehicleList.size(); i++) {
-                        Vehicle dummy = vehicleList.get(i);
-                        if (dummy.getIsRent()) {
-                            continue;
-                        } else {
-                            System.out.printf("|%-2d.|%-25s|%-10s|%-17s|%-10s|Rp. %-,8d|\n", iterator3, dummy.getNama(),
-                                    dummy.getKapasitas(), dummy.getPlatKendaraan(), dummy.getJenis(), dummy.getHarga());
-                            iterator3++;
-                        }
-                    }
+                    order.pay();
                     System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
                     String check2 = in.nextLine();
                     if (check2.equals("y")) {
                         break;
                     } else {
-                        isFinishOrderMenu = true;
-                    }
-                    break;
-                case 4:
-                    Guest dummy = (Guest) current;
-                    dummy.printListOrder();
-                    System.out.print("Apakah ingin melanjutkan menu ? (y/n) ");
-                    String check3 = in.nextLine();
-                    if (check3.equals("y")) {
-                        break;
-                    } else {
-                        isFinishOrderMenu = true;
                     }
                     break;
                 default:
