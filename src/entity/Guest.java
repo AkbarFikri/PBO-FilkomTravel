@@ -1,61 +1,36 @@
 package entity;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Stack;
 import domain.Customer;
 
 public class Guest extends Customer {
-    Stack<Order> orderList = new Stack<>();
+    private ArrayList<Order> orders = new ArrayList<>();
+    private ArrayList<OrderItem> carts = new ArrayList<>();
+    private int balance;
 
     @Override
-    public void makeOrder(ArrayList<Vehicle> vehicleList, int longTime, int choose) {
-        int iterator = 1;
-        Vehicle vehicle = null;
-        for (int i = 0; i < vehicleList.size(); i++) {
-            if (vehicleList.get(i).getIsRent()) {
-                iterator++;
-                continue;
-            } else {
-                if (iterator >= choose) {
-                    vehicle = vehicleList.get(iterator - 1);
-                    vehicleList.get(iterator - 1).setRent(true);
-                    break;
-                }
-                iterator++;
-            }
-        }
-        orderList.add(new Order(vehicle, longTime, this.getLastOrderNo()));
+    public void addToCart() {
+
     }
 
-    public Guest(String firtsName, String lastName) {
-        super();
-        this.setFirstName(firtsName);
-        this.setLastName(lastName);
+    @Override
+    public void makeOrder() {
+
     }
 
-    public int getLastOrderNo() {
-        if (orderList.isEmpty()) {
-            return 0;
-        }
-        return orderList.peek().getOrderNo();
+    public Guest(String id, int firstBalance) {
+        super("Guest", id);
+        this.balance = firstBalance;
     }
 
-    public void printListOrder() {
-        System.out.println("|No.|Nomor Pesanan |Status      |Total Harga     |");
-        System.out.println("--------------------------------------------------");
-        for (int i = 0; i < orderList.size(); i++) {
-            Order dummy = orderList.get(i);
-            System.out.printf("|%-2d.|%-14d|%-12s| Rp.%-,12d|\n", i + 1, dummy.getOrderNo(), dummy.getStatus(),
-                    dummy.getTotalPrice());
-        }
-    }
+//    public void printListOrder() {
+//        System.out.println("|No.|Nomor Pesanan |Status      |Total Harga     |");
+//        System.out.println("--------------------------------------------------");
+//        for (int i = 0; i < orders.size(); i++) {
+//            Order dummy = orders.get(i);
+//            System.out.printf("|%-2d.|%-14d|%-12s| Rp.%-,12d|\n", i + 1, dummy.getOrderNo(), dummy.getStatus(),
+//                    dummy.getTotalPrice());
+//        }
+//    }
 
-    public Order getOrderByIndex(int index) {
-        return orderList.get(index - 1);
-    }
-
-    public Order getLastOrder() {
-        return orderList.peek();
-    }
 }

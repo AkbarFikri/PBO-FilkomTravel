@@ -24,12 +24,7 @@ public class CashbackPromo extends Promotion {
 
     @Override
     public boolean isMinimumPriceEligible(Object x) {
-        Order orderX = (Order) x;
-        if (orderX.getTotalPrice() > 150000) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     @Override
@@ -40,7 +35,7 @@ public class CashbackPromo extends Promotion {
     @Override
     public double getTotalPrice(Object x) {
         Order orderX = (Order) x;
-        return orderX.getTotalPrice() - this.cashback;
+        return 0.0;
     }
 
     @Override

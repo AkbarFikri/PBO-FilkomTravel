@@ -1,36 +1,32 @@
 package domain;
 
-import entity.Vehicle;
-
-import java.util.ArrayList;
-
 public abstract class Customer {
-    private String firstName;
-    private String lastName;
+    private String name;
+    private String id;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    protected Customer(String name, String id) {
+        this.name = name;
+        this.id = id;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getFullName() {
-        return firstName + " " + lastName;
+    public String getId() {
+        return id;
     }
+
+    public abstract void addToCart();
     
-    public abstract void makeOrder(ArrayList<Vehicle> vehicleList, int longTime, int choose);
-    
-    public void confirmPay(int nomorPesanan){
-        return;
-    }
+    public abstract void makeOrder();
+
 }
