@@ -3,10 +3,12 @@ package domain;
 public abstract class Customer {
     private String name;
     private String id;
+    private int balance;
 
-    protected Customer(String name, String id) {
+    protected Customer(String name, String id, int balance) {
         this.name = name;
         this.id = id;
+        this.balance = balance;
     }
 
     public void setName(String name) {
@@ -24,6 +26,10 @@ public abstract class Customer {
     public String getId() {
         return id;
     }
+
+    public void setBalance(int balance) { this.balance = balance; }
+
+    public int getBalance() { return balance; }
 
     public abstract void addToCart();
     

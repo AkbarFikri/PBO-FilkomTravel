@@ -82,7 +82,23 @@ public class Main {
                     // TODO Delvin yang ngerjain
                     break;
                 case "TOPUP":
-                    // TODO Putra yang ngerjain
+                    String topUpInput = keyboard.nextLine();
+                    String[] topUpTemp = inputs.get(i).split(" ");
+                    boolean checkUser = false;
+                    int target = 0;
+                    for (int j = 0; j < customers.size(); j++) {
+                        if (topUpTemp[1].equalsIgnoreCase(customers.get(j).getId())){
+                            checkUser = true;
+                            target = j;
+                        }
+                    }
+                    if (checkUser){
+                        int before = customers.get(target).getBalance();
+                        customers.get(target).setBalance(before+Integer.parseInt(topUpTemp[2]));
+                        System.out.println("TOPUP SUCCESS: "+customers.get(target).getName()+" "+before+"=>"+customers.get(target).getBalance());
+                    }else {
+                        System.out.println("TOPUP FAILED: NON EXISTENT CUSTOMER");
+                    }
                     break;
                 case "CHECK_OUT":
                     // TODO Putra yang ngerjain

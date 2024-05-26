@@ -6,7 +6,6 @@ import domain.Customer;
 public class Guest extends Customer {
     private ArrayList<Order> orders = new ArrayList<>();
     private ArrayList<OrderItem> carts = new ArrayList<>();
-    private int balance;
 
     @Override
     public void addToCart() {
@@ -19,8 +18,7 @@ public class Guest extends Customer {
     }
 
     public Guest(String id, int firstBalance) {
-        super("Guest", id);
-        this.balance = firstBalance;
+        super("Guest", id, firstBalance);
     }
 
 //    public void printListOrder() {

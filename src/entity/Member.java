@@ -11,17 +11,19 @@ public class Member extends Customer {
     public ArrayList<Order> orders = new ArrayList<>();
     public ArrayList<OrderItem> carts = new ArrayList<>();
     Date registrationDate;
-    private int balance;
 
     public Member(String id, String name, String registrationDate, int firstBalance) {
-        super(name, id);
+        super(name, id, firstBalance);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         try {
             this.registrationDate = formatter.parse(registrationDate);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        this.balance = firstBalance;
+    }
+
+    public int getBalance() {
+        return balance;
     }
 
     @Override
