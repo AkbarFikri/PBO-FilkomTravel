@@ -8,7 +8,6 @@ public class OrderItem {
     int rentalTime;
     int lastOrderNo;
     Date date;
-
     Date end;
 
     public OrderItem(Vehicle vehicle, int qty, int year, int month, int date){
@@ -17,7 +16,7 @@ public class OrderItem {
         this.date = new Date(year, month, date);
         end = new Date(year, month, date+rentalTime);
     }
-    public void UpdateDate(int qty){
+    public void increaseDate(int qty){
         rentalTime = qty;
         end = new Date(date.getYear(), date.getMonth(), date.getDate()+qty);
     }

@@ -26,7 +26,7 @@ public class Guest extends Customer {
 
     @Override
     public void addToCart(Vehicle vehicle, int qty, int year, int month, int date) {
-        orders.get(orders.size() - 1).addItems(vehicle, qty, year, month, date);
+        getLastOrder().addItems(vehicle, qty, year, month, date);
 
         if (qty == 1) {
             System.out.println("ADD_TO_CART SUCCESS: " + qty + " day " + vehicle.getName() + " "

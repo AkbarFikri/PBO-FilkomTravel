@@ -12,6 +12,7 @@
 import domain.*;
 import entity.Guest;
 import entity.Member;
+import entity.OrderItem;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -29,11 +30,8 @@ public class Main {
     static ArrayList<Vehicle> vehicles = new ArrayList<>();
 
     public static void main(String[] args) {
-        boolean checkUser = false;
-        int target = 0;
-        boolean checkVehicle = false;
-        int targetVehicle = 0;
         ArrayList<String> inputs = new ArrayList<>();
+
         while (keyboard.hasNextLine()) {
             String temp = keyboard.nextLine();
             if (temp.isEmpty()) {
@@ -61,93 +59,57 @@ public class Main {
                     // TODO Akbar yang ngerjain
                     break;
                 case "ADD_TO_CART":
-                    checkUser = false;
-                    // ini dan bawah kubuat soalnya bingung baut dapetin index nya kalo pake method
-                    // isExist
-                    for (int j = 0; j < customers.size(); j++) {
-                        if (commands[1].equalsIgnoreCase(customers.get(j).getId())) {
-                            checkUser = true;
-                            target = j;
-                        }
-                    }
-                    String[] dateTemp = commands[4].split("/");
-                    checkVehicle = false;
-                    for (int j = 0; j < vehicles.size(); j++) {
-                        if (commands[2].equalsIgnoreCase(vehicles.get(j).getId())) {
-                            checkVehicle = true;
-                            target = j;
-                        }
-                    }
+                    try {
+                        Customer dumpUser = getCustomerById(commands[1]);
+                        String[] dateTemp = commands[4].split("/");
+                        Vehicle vehicle = getVehicleById(commands[2]);
 
-                    if (checkUser && checkVehicle) {
-                        boolean checkOrderExist = false;
-                        int targetExist = 0;
-                        for (int j = 0; j < customers.get(target).orders.size(); j++) {
-                            if (customers.get(target).orders.get(customers.get(target).orders.size() - 1)
-                                    .getOrderItems().get(j).equals(commands[2])) {
-                                checkOrderExist = true;
-                                targetExist = j;
-                            }
-                        }
-                        if (customers.get(target).orders.isEmpty() || customers.get(target).orders
-                                .get(customers.get(target).orders.size() - 1).isCheckOut()) {
-                            customers.get(target).makeOrder(vehicles.get(targetVehicle), Integer.parseInt(commands[3]),
-                                    Integer.parseInt(dateTemp[0]), Integer.parseInt(dateTemp[1]),
-                                    Integer.parseInt(dateTemp[2]));
-                        } else if (checkOrderExist) {
-                            customers.get(target).orders.get(customers.get(target).orders.size() - 1).getOrderItems()
-                                    .get(targetExist).UpdateDate(Integer.parseInt(commands[3]));
-                            if (Integer.parseInt(commands[3]) == 1) {
-                                System.out.println("ADD_TO_CART SUCCESS: " + commands[3] + " day "
-                                        + vehicles.get(targetVehicle).getName() + " "
-                                        + vehicles.get(targetVehicle).getPlatNumber() + " (UPDATED)");
+                        boolean checkOrderItemExist = dumpUser.isOrderItemExistInLastOrder(commands[2]);
+
+                            if (dumpUser.orders.isEmpty() || dumpUser.getLastOrder().isCheckOut()) {
+                                dumpUser.makeOrder(vehicle,
+                                        Integer.parseInt(commands[3]),
+                                        Integer.parseInt(dateTemp[0]),
+                                        Integer.parseInt(dateTemp[1]),
+                                        Integer.parseInt(dateTemp[2]));
+                            } else if (checkOrderItemExist) {
+                                dumpUser.getLastOrder()
+                                        .getOrderItemById(commands[2])
+                                        .increaseDate(Integer.parseInt(commands[3]));
+                                if (Integer.parseInt(commands[3]) == 1) {
+                                    System.out.println("ADD_TO_CART SUCCESS: " + commands[3] + " day "
+                                            + vehicle.getName() + " "
+                                            + vehicle.getPlatNumber() + " (UPDATED)");
+                                } else {
+                                    System.out.println("ADD_TO_CART SUCCESS: " + commands[3] + " days "
+                                            + vehicle.getName() + " "
+                                            + vehicle.getPlatNumber() + " (UPDATED)");
+                                }
                             } else {
-                                System.out.println("ADD_TO_CART SUCCESS: " + commands[3] + " days "
-                                        + vehicles.get(targetVehicle).getName() + " "
-                                        + vehicles.get(targetVehicle).getPlatNumber() + " (UPDATED)");
+                                dumpUser.addToCart(vehicle,
+                                        Integer.parseInt(commands[3]),
+                                        Integer.parseInt(dateTemp[0]),
+                                        Integer.parseInt(dateTemp[1]),
+                                        Integer.parseInt(dateTemp[2]));
                             }
-                        } else {
-                            customers.get(target).addToCart(vehicles.get(targetVehicle), Integer.parseInt(commands[3]),
-                                    Integer.parseInt(dateTemp[0]), Integer.parseInt(dateTemp[1]),
-                                    Integer.parseInt(dateTemp[2]));
-                        }
-                    } else {
+                    } catch (NullPointerException e) {
                         System.out.println("ADD_TO_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
                     }
 
                     break;
                 case "REMOVE_FROM_CART":
-                    checkUser = false;
-                    for (int j = 0; j < customers.size(); j++) {
-                        if (commands[1].equalsIgnoreCase(customers.get(j).getId())) {
-                            checkUser = true;
-                            target = j;
-                        }
-                    }
-                    boolean checkOrderExist = false;
-                    int targetExist = 0;
-                    for (int j = 0; j < customers.get(target).orders.size(); j++) {
-                        if (customers.get(target).orders.get(customers.get(target).orders.size() - 1).getOrderItems()
-                                .get(j).equals(commands[2])) {
-                            checkOrderExist = true;
-                            targetExist = j;
-                        }
-                    }
-
-                    if (checkUser && checkOrderExist) {
-                        customers.get(target).orders.get(customers.get(target).orders.size() - 1).getOrderItems()
-                                .get(targetExist).decreaseDate(Integer.parseInt(commands[3]));
-                        if (customers.get(target).orders.get(customers.get(target).orders.size() - 1).getOrderItems()
-                                .get(targetExist).getRentalTime() <= 0) {
+                    try {
+                        Customer dumpUser2 = getCustomerById(commands[1]);
+                        OrderItem dumpOrderItem = dumpUser2.getLastOrder().getOrderItemById(commands[2]);
+                        dumpOrderItem.decreaseDate(Integer.parseInt(commands[3]));
+                        if (dumpOrderItem.getRentalTime() <= 0) {
                             // Sout message hapus
-                            customers.get(target).orders.get(customers.get(target).orders.size() - 1).getOrderItems()
-                                    .remove(targetExist);
+                            dumpUser2.getLastOrder().deleteItemById(dumpOrderItem.getVehicle().getId());
                         } else {
                             // sout message decrease
                         }
-
-                    } else {
-                        // sout message error
+                    } catch (NullPointerException e) {
+                        System.out.println("KENAK ANJAY");
                     }
 
                     break;
@@ -155,19 +117,12 @@ public class Main {
                     // TODO Delvin yang ngerjain
                     break;
                 case "TOPUP":
-                    checkUser = false;
-                    for (int j = 0; j < customers.size(); j++) {
-                        if (commands[1].equalsIgnoreCase(customers.get(j).getId())) {
-                            checkUser = true;
-                            target = j;
-                        }
-                    }
-                    if (checkUser) {
-                        int before = customers.get(target).getBalance();
-                        customers.get(target).setBalance(before + Integer.parseInt(commands[2]));
-                        System.out.println("TOPUP SUCCESS: " + customers.get(target).getName() + " " + before + "=>"
-                                + customers.get(target).getBalance());
-                    } else {
+                    try {
+                        Customer dumpUser3 = getCustomerById(commands[1]);
+                        int before = dumpUser3.getBalance();
+                        dumpUser3.setBalance(before + Integer.parseInt(commands[2]));
+                        System.out.println("TOPUP SUCCESS: " + dumpUser3.getName() + " " + before + "=>" + dumpUser3.getBalance());
+                    } catch (NullPointerException e) {
                         System.out.println("TOPUP FAILED: NON EXISTENT CUSTOMER");
                     }
                     break;
@@ -193,6 +148,15 @@ public class Main {
         return false;
     }
 
+    public static Customer getCustomerById(String id) {
+        for (Customer c : customers) {
+            if (c.getId().equals(id)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     public static void createMember(String[] datas) {
         if (isCustomerIdExist(datas[0])) {
             System.out.println("CREATE MEMBER FAILED: " + datas[0] + " IS EXISTS");
@@ -211,6 +175,16 @@ public class Main {
         Guest guest = new Guest(datas[0], Integer.parseInt(datas[1]));
         customers.add(guest);
         System.out.println("CREATE GUEST SUCCESS: " + datas[0] + " " + datas[1]);
+    }
+
+
+    public static Vehicle getVehicleById(String id) {
+        for (Vehicle v : vehicles) {
+            if (v.getId().equals(id)) {
+                return v;
+            }
+        }
+        return null;
     }
 
 }

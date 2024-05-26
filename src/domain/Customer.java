@@ -53,4 +53,34 @@ public abstract class Customer {
         return true;
     }
 
+    public Order getLastOrder() {
+        return orders.get(orders.size() - 1);
+    }
+
+    public boolean isOrderItemExistInLastOrder(String MenuId) {
+        for (int j = 0; j < this.getLastOrder().getOrderItems().size(); j++) {
+            if (this.getLastOrder()
+                    .getOrderItems()
+                    .get(j)
+                    .getVehicle().getId()
+                    .equals(MenuId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public OrderItem getOrderItemById(String MenuId) {
+        for (int j = 0; j < this.getLastOrder().getOrderItems().size(); j++) {
+            if (this.getLastOrder()
+                    .getOrderItems()
+                    .get(j)
+                    .getVehicle().getId()
+                    .equals(MenuId)) {
+                return this.getLastOrder().getOrderItems().get(j);
+            }
+        }
+        return null;
+    }
+
 }
