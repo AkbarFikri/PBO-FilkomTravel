@@ -36,21 +36,20 @@ public abstract class Customer {
         return id;
     }
 
-    public void setBalance(int balance) { this.balance = balance; }
-
-    public int getBalance() { return balance; }
-    
-    public void makeOrder(Vehicle vehicle, int qty, int year, int month, int date){
-        Order order = new Order();
-        order.addItems(vehicle, qty, year, month, date);
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
-    public void addToCart(Vehicle vehicle, int qty, int year, int month, int date){
-        orders.get(orders.size()-1).addItems(vehicle, qty, year, month, date);
+    public int getBalance() {
+        return balance;
     }
 
-    public boolean checkout(){
-        orders.get(orders.size()-1).countSubTotal;
+    public abstract void makeOrder(Vehicle vehicle, int qty, int year, int month, int date);
+
+    public abstract void addToCart(Vehicle vehicle, int qty, int year, int month, int date);
+
+    public boolean checkout() {
+        orders.get(orders.size() - 1).countSubTotal();
         return true;
     }
 
