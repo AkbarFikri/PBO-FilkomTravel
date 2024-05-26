@@ -34,15 +34,34 @@ public class Order {
 
     // CO blm jadi gatau knp error
     public void countSubTotal() {
+        int dumpTotal = 0;
         for (int i = 0; i < orderItems.size(); i++) {
-            subTotalPrice += orderItems.get(i).getVehicle().getPrice() * orderItems.get(i).getRentalTime();
+            dumpTotal += orderItems.get(i).getVehicle().getPrice() * orderItems.get(i).getRentalTime();
         }
+        subTotalPrice = dumpTotal;
     }
 
     public void checkOut() {
         this.isCheckOut = true;
         System.out.println("Checkout berhasil!");
         printDetails();
+    }
+
+    public OrderItem getOrderItemById(String MenuId) {
+        for (int i = 0; i < orderItems.size(); i++) {
+            if (orderItems.get(i).getVehicle().getId().equals(MenuId)) {
+                return orderItems.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void deleteItemById(String MenuId) {
+        for (int i = 0; i < orderItems.size(); i++) {
+            if (orderItems.get(i).getVehicle().getId().equals(MenuId)) {
+                orderItems.remove(i);
+            }
+        }
     }
 
     public void printDetails() {
