@@ -12,9 +12,11 @@
 import domain.*;
 import entity.Guest;
 import entity.Member;
+import entity.Order;
 import entity.OrderItem;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 /*
@@ -114,21 +116,43 @@ public class Main {
 
                     break;
                 case "APPLY_PROMO":
-                    // TODO Delvin yang ngerjain
+                    Customer dumpUser3 = getCustomerById(commands[1]);
+                    Promotion dumpPromo = getPromotionById(commands[2]);
+                    if (dumpUser3!=null && dumpPromo!=null){
+                        if (dumpPromo.isCustomerEligible(dumpUser3)){
+                            Date currentDate = new Date();
+                            if (!currentDate.after(dumpPromo.getEnd()) || !currentDate.before(dumpPromo.getBegin())){
+                                dumpUser3.getLastOrder().setPromotion(dumpPromo);
+                            }else{
+                                //exception expired
+                            }
+                        }else {
+                            //exception apply promo failed kodepromo
+                            return;
+                        }
+                    }
                     break;
                 case "TOPUP":
                     try {
-                        Customer dumpUser3 = getCustomerById(commands[1]);
-                        int before = dumpUser3.getBalance();
-                        dumpUser3.setBalance(before + Integer.parseInt(commands[2]));
-                        System.out.println(
-                                "TOPUP SUCCESS: " + dumpUser3.getName() + " " + before + "=>" + dumpUser3.getBalance());
+                        Customer dumpUser4 = getCustomerById(commands[1]);
+                        int before = dumpUser4.getBalance();
+                        dumpUser4.setBalance(before + Integer.parseInt(commands[2]));
+                        System.out.println("TOPUP SUCCESS: " + dumpUser4.getName() + " " + before + "=>" + dumpUser4.getBalance());
                     } catch (NullPointerException e) {
                         System.out.println("TOPUP FAILED: NON EXISTENT CUSTOMER");
                     }
                     break;
                 case "CHECK_OUT":
-
+                        Customer dumpuser5 = getCustomerById(commands[1]);
+                        if (dumpuser5!= null){
+                            if (dumpuser5.checkOut()){
+                                //message success
+                            }else{
+                                //insufficient balance
+                            }
+                        }else{
+                            //sout non existent
+                        }
                     break;
                 case "PRINT":
                     Customer dumpUser5 = getCustomerById(commands[1]);
@@ -162,6 +186,15 @@ public class Main {
     public static Customer getCustomerById(String id) {
         for (Customer c : customers) {
             if (c.getId().equals(id)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public static Promotion getPromotionById(String id) {
+        for (Promotion c : promotions) {
+            if (c.getPromoCode().equals(id)) {
                 return c;
             }
         }
