@@ -8,8 +8,6 @@ import java.util.Date;
 import domain.Customer;
 
 public class Member extends Customer {
-    public ArrayList<Order> orders = new ArrayList<>();
-    public ArrayList<OrderItem> carts = new ArrayList<>();
     Date registrationDate;
 
     public Member(String id, String name, String registrationDate, int firstBalance) {
@@ -22,17 +20,4 @@ public class Member extends Customer {
         }
     }
 
-    public int getBalance() {
-        return balance;
-    }
-
-    @Override
-    public void addToCart() {
-
-    }
-
-    @Override
-    public void makeOrder() {
-
-    }
 }

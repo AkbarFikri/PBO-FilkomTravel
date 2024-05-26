@@ -1,7 +1,10 @@
 package entity;
 
-import domain.Customer;
-import domain.Promotion;
+//import domain.Customer;
+//import domain.Promotion;
+
+import domain.*;
+import entity.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,15 +16,33 @@ public class Order {
     private Promotion promotion;
     private boolean isCheckOut;
 
-    public Order(Car vehicle, int rentalTime, int lastOrderNo) {
+    public Order() {
         this.orderDate = LocalDate.now();
+    }
+
+    public ArrayList<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void addItems(Vehicle vehicle, int qty, int year, int month, int date){
+        OrderItem item = new OrderItem(vehicle, qty, year, month, date);
+        orderItems.add(item);
+    }
+
+    public boolean isCheckOut() {
+        return isCheckOut;
+    }
+    //CO blm jadi gatau knp error
+    public void countSubTotal{
+        for (int i = 0; i < orderItems.size(); i++) {
+            subTotalPrice += orderItems.get(i).getVehicle().getPrice()*orderItems.get(i).getRentalTime();
+        }
     }
 
     public void checkOut() {
         this.isCheckOut = true;
         System.out.println("Checkout berhasil!");
         printDetails();
-
     }
 
     public void printDetails() {

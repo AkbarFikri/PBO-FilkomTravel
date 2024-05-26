@@ -1,9 +1,18 @@
 package domain;
 
+import entity.Order;
+import domain.*;
+//gatau kenapa gabisa import OrderItem
+import entity.*;
+
+import java.util.ArrayList;
+
 public abstract class Customer {
     private String name;
     private String id;
     private int balance;
+
+    public ArrayList<Order> orders = new ArrayList<>();
 
     protected Customer(String name, String id, int balance) {
         this.name = name;
@@ -30,9 +39,19 @@ public abstract class Customer {
     public void setBalance(int balance) { this.balance = balance; }
 
     public int getBalance() { return balance; }
-
-    public abstract void addToCart();
     
-    public abstract void makeOrder();
+    public void makeOrder(Vehicle vehicle, int qty, int year, int month, int date){
+        Order order = new Order();
+        order.addItems(vehicle, qty, year, month, date);
+    }
+
+    public void addToCart(Vehicle vehicle, int qty, int year, int month, int date){
+        orders.get(orders.size()-1).addItems(vehicle, qty, year, month, date);
+    }
+
+    public boolean checkout(){
+        orders.get(orders.size()-1).countSubTotal;
+        return true;
+    }
 
 }
