@@ -40,6 +40,7 @@ public class Guest extends Customer {
         }
     }
 
+    @Override
     public void print() {
         System.out.println("Kode Pemesan: " + getId());
         System.out.println("Nama: " + getName());
@@ -70,7 +71,7 @@ public class Guest extends Customer {
         String balance = formatter.format(getBalance() - getLastOrder().countSubTotal());
 
         System.out.printf("%-32s: %14s%n", "Total", subtotal);
-        if (getLastOrder().isCheckOut() == true) {
+        if (getLastOrder().isCheckOut()) {
             // String discount = formatter.format(/*apply promo di sini */);
             System.out.printf("%-27s: %9s%n", "PROMO"/* , discount */);
         }
@@ -80,6 +81,7 @@ public class Guest extends Customer {
         System.out.println("");
     }
 
+    @Override
     public void printHistory() {
         System.out.println("Kode Pemesan: " + getId());
         System.out.println("Nama: " + getName());
@@ -98,16 +100,5 @@ public class Guest extends Customer {
         }
         System.out.println("===============================================================");
     }
-
-    // public void printListOrder() {
-    // System.out.println("|No.|Nomor Pesanan |Status |Total Harga |");
-    // System.out.println("--------------------------------------------------");
-    // for (int i = 0; i < orders.size(); i++) {
-    // Order dummy = orders.get(i);
-    // System.out.printf("|%-2d.|%-14d|%-12s| Rp.%-,12d|\n", i + 1,
-    // dummy.getOrderNo(), dummy.getStatus(),
-    // dummy.getTotalPrice());
-    // }
-    // }
 
 }

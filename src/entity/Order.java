@@ -33,12 +33,13 @@ public class Order {
     }
 
     // CO blm jadi gatau knp error
-    public void countSubTotal() {
+    public int countSubTotal() {
         int dumpTotal = 0;
         for (int i = 0; i < orderItems.size(); i++) {
             dumpTotal += orderItems.get(i).getVehicle().getPrice() * orderItems.get(i).getRentalTime();
         }
         subTotalPrice = dumpTotal;
+        return subTotalPrice;
     }
 
     public void checkOut() {
@@ -62,6 +63,10 @@ public class Order {
                 orderItems.remove(i);
             }
         }
+    }
+
+    public LocalDate getOrderDate() {
+        return orderDate;
     }
 
     public void printDetails() {

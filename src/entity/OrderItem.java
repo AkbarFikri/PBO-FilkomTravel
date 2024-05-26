@@ -33,4 +33,12 @@ public class OrderItem {
     public Vehicle getVehicle() {
         return vehicle;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
 }
