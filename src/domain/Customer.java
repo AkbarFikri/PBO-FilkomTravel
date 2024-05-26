@@ -83,4 +83,8 @@ public abstract class Customer {
         return null;
     }
 
+    public abstract void print();
+
+    public abstract void printHistory();
+
 }
