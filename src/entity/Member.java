@@ -40,4 +40,9 @@ public class Member extends Customer {
         orders.get(orders.size() - 1).addItems(vehicle, qty, year, month, date);
     }
 
+    @Override
+    public void print() {}
+
+    public void printHistory() {}
+
 }

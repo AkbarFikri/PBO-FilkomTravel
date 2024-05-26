@@ -68,32 +68,32 @@ public class Main {
 
                         boolean checkOrderItemExist = dumpUser.isOrderItemExistInLastOrder(commands[2]);
 
-                            if (dumpUser.orders.isEmpty() || dumpUser.getLastOrder().isCheckOut()) {
-                                dumpUser.makeOrder(vehicle,
-                                        Integer.parseInt(commands[3]),
-                                        Integer.parseInt(dateTemp[0]),
-                                        Integer.parseInt(dateTemp[1]),
-                                        Integer.parseInt(dateTemp[2]));
-                            } else if (checkOrderItemExist) {
-                                dumpUser.getLastOrder()
-                                        .getOrderItemById(commands[2])
-                                        .increaseDate(Integer.parseInt(commands[3]));
-                                if (Integer.parseInt(commands[3]) == 1) {
-                                    System.out.println("ADD_TO_CART SUCCESS: " + commands[3] + " day "
-                                            + vehicle.getName() + " "
-                                            + vehicle.getPlatNumber() + " (UPDATED)");
-                                } else {
-                                    System.out.println("ADD_TO_CART SUCCESS: " + commands[3] + " days "
-                                            + vehicle.getName() + " "
-                                            + vehicle.getPlatNumber() + " (UPDATED)");
-                                }
+                        if (dumpUser.orders.isEmpty() || dumpUser.getLastOrder().isCheckOut()) {
+                            dumpUser.makeOrder(vehicle,
+                                    Integer.parseInt(commands[3]),
+                                    Integer.parseInt(dateTemp[0]),
+                                    Integer.parseInt(dateTemp[1]),
+                                    Integer.parseInt(dateTemp[2]));
+                        } else if (checkOrderItemExist) {
+                            dumpUser.getLastOrder()
+                                    .getOrderItemById(commands[2])
+                                    .increaseDate(Integer.parseInt(commands[3]));
+                            if (Integer.parseInt(commands[3]) == 1) {
+                                System.out.println("ADD_TO_CART SUCCESS: " + commands[3] + " day "
+                                        + vehicle.getName() + " "
+                                        + vehicle.getPlatNumber() + " (UPDATED)");
                             } else {
-                                dumpUser.addToCart(vehicle,
-                                        Integer.parseInt(commands[3]),
-                                        Integer.parseInt(dateTemp[0]),
-                                        Integer.parseInt(dateTemp[1]),
-                                        Integer.parseInt(dateTemp[2]));
+                                System.out.println("ADD_TO_CART SUCCESS: " + commands[3] + " days "
+                                        + vehicle.getName() + " "
+                                        + vehicle.getPlatNumber() + " (UPDATED)");
                             }
+                        } else {
+                            dumpUser.addToCart(vehicle,
+                                    Integer.parseInt(commands[3]),
+                                    Integer.parseInt(dateTemp[0]),
+                                    Integer.parseInt(dateTemp[1]),
+                                    Integer.parseInt(dateTemp[2]));
+                        }
                     } catch (NullPointerException e) {
                         System.out.println("ADD_TO_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
                     }
@@ -155,10 +155,20 @@ public class Main {
                         }
                     break;
                 case "PRINT":
-                    // TODO Delvin yang ngerjain
+                    Customer dumpUser5 = getCustomerById(commands[1]);
+                    if (dumpUser5 instanceof Guest) {
+                        ((Guest) dumpUser5).print();
+                    } else if (dumpUser5 instanceof Member) {
+                        ((Member) dumpUser5).print();
+                    }
                     break;
                 case "PRINT_HISTORY":
-                    // TODO Akbar yang ngerjain
+                    Customer dumpUser6 = getCustomerById(commands[1]);
+                    if (dumpUser6 instanceof Guest) {
+                        ((Guest) dumpUser6).printHistory();
+                    } else if (dumpUser6 instanceof Member) {
+                        ((Member) dumpUser6).printHistory();
+                    }
                     break;
             }
         }
@@ -210,7 +220,6 @@ public class Main {
         customers.add(guest);
         System.out.println("CREATE GUEST SUCCESS: " + datas[0] + " " + datas[1]);
     }
-
 
     public static Vehicle getVehicleById(String id) {
         for (Vehicle v : vehicles) {

@@ -83,7 +83,6 @@ public abstract class Customer {
         }
         return null;
     }
-
     public boolean checkOut(){
         Order dumpOrder = getLastOrder();
         dumpOrder.countTotal();
@@ -102,5 +101,9 @@ public abstract class Customer {
             return false;
         }
     }
+  
+    public abstract void print();
+
+    public abstract void printHistory();
 
 }
