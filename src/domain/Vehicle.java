@@ -1,5 +1,7 @@
 package domain;
 
+import entity.*;
+
 public abstract class Vehicle {
     protected String id;
     protected String name;

@@ -6,9 +6,11 @@
 */
 
 
-import domain.Customer;
-import domain.Promotion;
-import domain.Vehicle;
+//import domain.Customer;
+//import domain.Promotion;
+//import domain.Vehicle;
+//gatau knp gabisa import ntar coba di cek di IDE kalian
+import domain.*;
 import entity.Guest;
 import entity.Member;
 
@@ -29,6 +31,10 @@ public class Main {
     static ArrayList<Vehicle> vehicles = new ArrayList<>();
 
     public static void main(String[] args) {
+        boolean checkUser = false;
+        int target = 0;
+        boolean checkVehicle = false;
+        int targetVehicle = 0;
         ArrayList<String> inputs = new ArrayList<>();
         while (keyboard.hasNextLine()) {
             String temp = keyboard.nextLine();
@@ -69,23 +75,111 @@ public class Main {
                     // TODO Akbar yang ngerjain
                     break;
                 case "ADD_TO_CART":
-                    /*
-                    * Ini nantik kalau bisa dia ngeloop aja dulu nyari usernya
-                    * trs makek method addToCart dari entity yak, begitupun seterusnya
-                    * */
-                    // TODO Delvin yang ngerjain
+                    checkUser = false;
+                    //ini dan bawah kubuat soalnya bingung baut dapetin index nya kalo pake method isExist
+                    for (int j = 0; j < customers.size(); j++) {
+                        if (commands[1].equalsIgnoreCase(customers.get(j).getId())){
+                            checkUser = true;
+                            target = j;
+                        }
+                    }
+                    String[] dateTemp = commands[4].split("/");
+                    checkVehicle = false;
+                    for (int j = 0; j < vehicles.size(); j++) {
+                        if (commands[2].equalsIgnoreCase(vehicles.get(j).getId())){
+                            checkVehicle = true;
+                            target = j;
+                        }
+                    }
+
+                    if (checkUser&&checkVehicle){
+                        boolean checkOrderExist = false;
+                        int targetExist=0;
+                        for (int j = 0; j < customers.get(target).orders.size(); j++) {
+                            if (customers.get(target).orders.get(customers.get(target).orders.size()-1).getOrderItems().get(j).equals(commands[2])){
+                                checkOrderExist = true;
+                                targetExist = j;
+                            }
+                        }
+                        if (customers.get(target).orders.isEmpty() || customers.get(target).orders.get(customers.get(target).orders.size()-1).isCheckOut()){
+                            customers.get(target).makeOrder(vehicles.get(targetVehicle), Integer.parseInt(commands[3]),Integer.parseInt(dateTemp[0]),Integer.parseInt(dateTemp[1]),Integer.parseInt(dateTemp[2]));
+                            if (Integer.parseInt(commands[3])==1){
+                                System.out.println("ADD_TO_CART SUCCESS: "+commands[3]+" day "+vehicles.get(targetVehicle).getName()+" "+vehicles.get(targetVehicle).getPlatNumber()+ " (NEW)");
+                            }else {
+                                System.out.println("ADD_TO_CART SUCCESS: "+commands[3]+" days "+vehicles.get(targetVehicle).getName()+" "+vehicles.get(targetVehicle).getPlatNumber()+ " (NEW)");
+                            }
+                        }else if(checkOrderExist){
+                            customers.get(target).orders.get(customers.get(target).orders.size()-1).getOrderItems().get(targetExist).UpdateDate(Integer.parseInt(commands[3]));
+                            if (Integer.parseInt(commands[3])==1){
+                                System.out.println("ADD_TO_CART SUCCESS: "+commands[3]+" day "+vehicles.get(targetVehicle).getName()+" "+vehicles.get(targetVehicle).getPlatNumber()+ " (UPDATED)");
+                            }else {
+                                System.out.println("ADD_TO_CART SUCCESS: "+commands[3]+" days "+vehicles.get(targetVehicle).getName()+" "+vehicles.get(targetVehicle).getPlatNumber()+ " (UPDATED)");
+                            }
+                        }else{
+                            customers.get(target).addToCart(vehicles.get(targetVehicle), Integer.parseInt(commands[3]),Integer.parseInt(dateTemp[0]),Integer.parseInt(dateTemp[1]),Integer.parseInt(dateTemp[2]));
+                            if (Integer.parseInt(commands[3])==1){
+                                System.out.println("ADD_TO_CART SUCCESS: "+commands[3]+" day "+vehicles.get(targetVehicle).getName()+" "+vehicles.get(targetVehicle).getPlatNumber()+ " (NEW)");
+                            }else {
+                                System.out.println("ADD_TO_CART SUCCESS: "+commands[3]+" days "+vehicles.get(targetVehicle).getName()+" "+vehicles.get(targetVehicle).getPlatNumber()+ " (NEW)");
+                            }
+                        }
+                    }else {
+                        System.out.println("ADD_TO_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
+                    }
+
                     break;
                 case "REMOVE_FROM_CART":
-                    // TODO Putra yang ngerjain
+                    checkUser = false;
+                    for (int j = 0; j < customers.size(); j++) {
+                        if (commands[1].equalsIgnoreCase(customers.get(j).getId())){
+                            checkUser = true;
+                            target = j;
+                        }
+                    }
+                    boolean checkOrderExist = false;
+                    int targetExist=0;
+                    for (int j = 0; j < customers.get(target).orders.size(); j++) {
+                        if (customers.get(target).orders.get(customers.get(target).orders.size()-1).getOrderItems().get(j).equals(commands[2])){
+                            checkOrderExist = true;
+                            targetExist = j;
+                        }
+                    }
+
+                    if (checkUser&&checkOrderExist){
+                        customers.get(target).orders.get(customers.get(target).orders.size()-1).getOrderItems().get(targetExist).decreaseDate(Integer.parseInt(commands[3]));
+                        if (customers.get(target).orders.get(customers.get(target).orders.size()-1).getOrderItems().get(targetExist).getRentalTime()<=0){
+                            //Sout message hapus
+                            customers.get(target).orders.get(customers.get(target).orders.size()-1).getOrderItems().remove(targetExist);
+                        } else {
+                            //sout message decrease
+                        }
+
+                    }else{
+                        //sout message error
+                    }
+
                     break;
                 case "APPLY_PROMO":
                     // TODO Delvin yang ngerjain
                     break;
                 case "TOPUP":
-                    // TODO Putra yang ngerjain
+                    checkUser = false;
+                    for (int j = 0; j < customers.size(); j++) {
+                        if (commands[1].equalsIgnoreCase(customers.get(j).getId())){
+                            checkUser = true;
+                            target = j;
+                        }
+                    }
+                    if (checkUser){
+                        int before = customers.get(target).getBalance();
+                        customers.get(target).setBalance(before+Integer.parseInt(commands[2]));
+                        System.out.println("TOPUP SUCCESS: "+customers.get(target).getName()+" "+before+"=>"+customers.get(target).getBalance());
+                    }else {
+                        System.out.println("TOPUP FAILED: NON EXISTENT CUSTOMER");
+                    }
                     break;
                 case "CHECK_OUT":
-                    // TODO Putra yang ngerjain
+
                     break;
                 case "PRINT":
                     // TODO Delvin yang ngerjain
