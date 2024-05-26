@@ -4,6 +4,7 @@ import entity.Order;
 import domain.*;
 //gatau kenapa gabisa import OrderItem
 import entity.*;
+import entity.promotion.CashbackPromo;
 
 import java.util.ArrayList;
 
@@ -81,6 +82,25 @@ public abstract class Customer {
             }
         }
         return null;
+    }
+
+    public boolean checkOut(){
+        Order dumpOrder = getLastOrder();
+        dumpOrder.countTotal();
+        if (dumpOrder.getTotalPrice()<balance){
+            if (dumpOrder.getPromotion() instanceof CashbackPromo){
+                int cashback = dumpOrder.getPromotion().getDiscountPercent()*dumpOrder.getTotalPrice()/100;
+                balance = balance - dumpOrder.getTotalPrice() + cashback;
+                dumpOrder.setCheckOut(true);
+                return true;
+            }else {
+                balance = balance - dumpOrder.getTotalPrice();
+                dumpOrder.setCheckOut(true);
+                return true;
+            }
+        }else {
+            return false;
+        }
     }
 
 }

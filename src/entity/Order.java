@@ -5,6 +5,7 @@ package entity;
 
 import domain.*;
 import entity.*;
+import entity.promotion.PercentOffPromo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,6 +25,26 @@ public class Order {
         return orderItems;
     }
 
+    public int getSubTotalPrice() {
+        return subTotalPrice;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(Promotion promotion) {
+        this.promotion = promotion;
+    }
+
+    public void setCheckOut(boolean checkOut) {
+        isCheckOut = checkOut;
+    }
+
     public void addItems(Vehicle vehicle, int qty, int year, int month, int date) {
         orderItems.add(new OrderItem(vehicle, qty, year, month, date));
     }
@@ -39,6 +60,17 @@ public class Order {
             dumpTotal += orderItems.get(i).getVehicle().getPrice() * orderItems.get(i).getRentalTime();
         }
         subTotalPrice = dumpTotal;
+    }
+
+    public void countTotal() {
+        countSubTotal();
+        int dumpSubTotal = 0;
+        if (promotion instanceof PercentOffPromo){
+            totalPrice = subTotalPrice - (subTotalPrice*promotion.getDiscountPercent()/100);
+            //berarti harga ubah jadi double???
+        }else {
+            totalPrice = subTotalPrice;
+        }
     }
 
     public void checkOut() {
@@ -92,16 +124,4 @@ public class Order {
         // }
     }
 
-    public void applyPromo(Promotion promo, Customer customer) {
-        // if (!promo.isCustomerEligible(customer)) {
-        // System.out.println("Mohon maaf, promo hanya dapat digunakan oleh Member.");
-        // return;
-        // }
-
-        if (!promo.isMinimumPriceEligible(this)) {
-            System.out.println("Mohon maaf, harga total belum cukup untuk promo.");
-            return;
-        }
-
-    }
 }
