@@ -6,23 +6,22 @@ import entity.*;
 public class OrderItem {
     Vehicle vehicle;
     int rentalTime;
-    int lastOrderNo;
     Date date;
     Date end;
 
     public OrderItem(Vehicle vehicle, int qty, int year, int month, int date){
         this.vehicle = vehicle;
         this.rentalTime = qty;
-        this.date = new Date(year, month, date);
-        end = new Date(year, month, date+rentalTime);
+        this.date = new Date(year - 1900, month, date);
+        end = new Date(year - 1900, month, date+rentalTime);
     }
     public void increaseDate(int qty){
-        rentalTime = qty;
+        rentalTime += qty;
         end = new Date(date.getYear(), date.getMonth(), date.getDate()+qty);
     }
 
     public void decreaseDate(int qty){
-        rentalTime = rentalTime-qty;
+        rentalTime -= qty;
         end = new Date(date.getYear(), date.getMonth(), date.getDate()-qty);
     }
 
