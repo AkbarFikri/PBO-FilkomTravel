@@ -60,10 +60,11 @@ public class Member extends Customer {
     public void printLastOrder() {
         System.out.println("Kode Pemesan: " + getId());
         System.out.println("Nama: " + getName());
-        System.out.println("Nomor Pesanan: ");
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy");
-        System.out.println("Tanggal Pesanan: " + sdf.format(getLastOrder().getOrderDate()));
-
+        if (getLastOrder().isCheckOut()) {
+            System.out.println("Nomor Pesanan: " + getLastOrder().getOrderNum());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy");
+            System.out.println("Tanggal Pesanan: " + sdf.format(getLastOrder().getOrderDate()));
+        }
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator(',');
         symbols.setGroupingSeparator('.');
