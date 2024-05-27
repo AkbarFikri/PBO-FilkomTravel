@@ -5,6 +5,8 @@ import domain.Promotion;
 import entity.Guest;
 import entity.Member;
 import entity.Order;
+import java.util.Date;
+import java.util.Calendar;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -17,7 +19,7 @@ public class CashbackPromo extends Promotion {
     }
 
     @Override
-    public boolean isCustomerEligible(Object x) {
+    public boolean isCustomerEligible(Customer x) {
         if (x instanceof Guest) {
             return false;
         } else if (x instanceof Member member) {
@@ -36,6 +38,7 @@ public class CashbackPromo extends Promotion {
         } else {
             return false;
         }
+
     }
 
     @Override
