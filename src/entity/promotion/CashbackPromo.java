@@ -3,12 +3,15 @@ package entity.promotion;
 import domain.Customer;
 import domain.Promotion;
 import entity.Guest;
+import entity.Member;
 import entity.Order;
 import java.util.Date;
 import java.util.Calendar;
 
-public class CashbackPromo extends Promotion {
+import java.util.Calendar;
+import java.util.Date;
 
+public class CashbackPromo extends Promotion {
     int cashback;
 
     public CashbackPromo(String promoCode, Date begin, Date end, int discountPercent, int maxDiscount, int minimumPurchase) {
@@ -19,26 +22,28 @@ public class CashbackPromo extends Promotion {
     public boolean isCustomerEligible(Customer x) {
         if (x instanceof Guest) {
             return false;
-        } else {
+        } else if (x instanceof Member member) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(x.getDate);
+            calendar.setTime(member.getRegistrationDate());
 
             calendar.add(Calendar.DAY_OF_YEAR, 30);
 
             Date currentDate = new Date();
 
-            if (!currentDate.after(calendar.getTime()){
+            if (!currentDate.after(calendar.getTime())) {
                 return false;
             }
 
-            return isMinimumPriceEligible(x);
+            return true;
+        } else {
+            return false;
         }
 
     }
 
     @Override
-    public boolean isMinimumPriceEligible(Customer x) {
-        if (x.getLastOrder().getSubTotalPrice()>getMinimumPurchase()){
+    public boolean isMinimumPriceEligible(Object x) {
+        if (x instanceof Order order && order.getSubTotalPrice() > super.getMinimumPurchase()){
             return true;
         }else{
             return false;

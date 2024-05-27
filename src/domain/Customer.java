@@ -1,12 +1,15 @@
 package domain;
 
 import entity.Order;
-import domain.*;
 //gatau kenapa gabisa import OrderItem
 import entity.*;
 import entity.promotion.CashbackPromo;
+import utils.customException.InsufficientBalanceException;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public abstract class Customer {
     private String name;
@@ -50,7 +53,7 @@ public abstract class Customer {
     public abstract void addToCart(Vehicle vehicle, int qty, int year, int month, int date);
 
     public boolean checkout() {
-        orders.get(orders.size() - 1).countSubTotal();
+        this.orders.get(orders.size() - 1).countSubTotal();
         return true;
     }
 
@@ -59,6 +62,8 @@ public abstract class Customer {
     }
 
     public boolean isOrderItemExistInLastOrder(String MenuId) {
+        if (this.orders.isEmpty()) return false;
+        if (this.getLastOrder().getOrderItems().isEmpty()) return false;
         for (int j = 0; j < this.getLastOrder().getOrderItems().size(); j++) {
             if (this.getLastOrder()
                     .getOrderItems()
@@ -83,26 +88,30 @@ public abstract class Customer {
         }
         return null;
     }
-    public boolean checkOut(){
+
+    public void checkOut(int OrderNum) throws InsufficientBalanceException {
         Order dumpOrder = getLastOrder();
+        dumpOrder.setOrderNum(OrderNum);
+        Date now = Date.from(Instant.now());
+        dumpOrder.setOrderDate(now);
         dumpOrder.countTotal();
-        if (dumpOrder.getTotalPrice()<balance){
+        if (dumpOrder.getTotalPrice() < balance){
             if (dumpOrder.getPromotion() instanceof CashbackPromo){
-                int cashback = dumpOrder.getPromotion().getDiscountPercent()*dumpOrder.getTotalPrice()/100;
+                int cashback = dumpOrder.getPromotion().getDiscountPercent() * dumpOrder.getTotalPrice()/100;
+                if (cashback > dumpOrder.getPromotion().maxDiscount) cashback = dumpOrder.getPromotion().maxDiscount;
                 balance = balance - dumpOrder.getTotalPrice() + cashback;
+                dumpOrder.getPromotion().setTotalDiscount(cashback);
                 dumpOrder.setCheckOut(true);
-                return true;
             }else {
                 balance = balance - dumpOrder.getTotalPrice();
                 dumpOrder.setCheckOut(true);
-                return true;
             }
         }else {
-            return false;
+            throw new InsufficientBalanceException(String.valueOf(dumpOrder.getOrderNum() + " " + this.name + " INSUFFICIENT BALANCE"));
         }
     }
-  
-    public abstract void print();
+
+    public abstract void printLastOrder();
 
     public abstract void printHistory();
 

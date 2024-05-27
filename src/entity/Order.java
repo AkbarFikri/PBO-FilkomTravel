@@ -4,21 +4,21 @@ package entity;
 //import domain.Promotion;
 
 import domain.*;
-import entity.*;
 import entity.promotion.PercentOffPromo;
+import utils.customException.InvalidApplyPromoException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Order {
-    private LocalDate orderDate;
+    private Date orderDate;
     private ArrayList<OrderItem> orderItems = new ArrayList<>();
-    private int totalPrice, subTotalPrice;
+    private int OrderNum, totalPrice, subTotalPrice;
     private Promotion promotion;
     private boolean isCheckOut;
 
     public Order() {
-        this.orderDate = LocalDate.now();
     }
 
     public ArrayList<OrderItem> getOrderItems() {
@@ -74,12 +74,6 @@ public class Order {
         }
     }
 
-    public void checkOut() {
-        this.isCheckOut = true;
-        System.out.println("Checkout berhasil!");
-        printDetails();
-    }
-
     public OrderItem getOrderItemById(String MenuId) {
         for (int i = 0; i < orderItems.size(); i++) {
             if (orderItems.get(i).getVehicle().getId().equals(MenuId)) {
@@ -97,36 +91,57 @@ public class Order {
         }
     }
 
-    public LocalDate getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void printDetails() {
-        // if (isCheckOut) {
-        // System.out.println("\n|-------------------------------------------|");
-        // System.out.println("|\t\t\t Order Details \t\t\t|");
-        // System.out.println("|-------------------------------------------|");
-        // System.out.printf("|%-20s : %-17s\t|\n", "Tanggal", this.orderDate);
-        // System.out.printf("|%-20s : %-17s\t|\n", "Lama Sewa", this.rentalTime + "
-        // hari");
-        // System.out.printf("|%-20s : %-17s\t|\n", "Jenis Mobil",
-        // this.vehicle.getJenis());
-        // System.out.printf("|%-20s : %-17s\t|\n", "Kapasitas",
-        // this.vehicle.getKapasitas());
-        // System.out.printf("|%-20s : %-17s\t|\n", "Status", this.getStatus());
-        // System.out.printf("|%-20s : Rp. %-,13d\t|\n", "Harga Awal",
-        // this.originalPrice);
-        // System.out.printf("|%-20s : Rp. %-,13d\t|\n", "Total Promo",
-        // this.promoPrice);
-        // System.out.printf("|%-20s : Rp. %-,13d\t|\n", "Total Harga",
-        // this.totalPrice);
-        // System.out.printf("|%-20s : %-17s\t|\n", "Plat",
-        // this.vehicle.getPlatKendaraan());
-        // System.out.println("|___________________________________________|\n");
-        // } else {
-        // System.out.println("Anda perlu checkout terlebih dahulu untuk melihat details
-        // dari pesanan anda!");
-        // }
+    public int getSubTotalPrice() {
+        return countSubTotal();
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(Promotion promotion) {
+        this.promotion = promotion;
+    }
+
+    public void setCheckOut(boolean checkOut) {
+        isCheckOut = checkOut;
+    }
+
+    public int getOrderNum() {
+        return OrderNum;
+    }
+
+    public void setOrderNum(int orderNum) {
+        OrderNum = orderNum;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public int getTotalDiscount() {
+        return this.getPromotion().getDiscountPercent() * this.getTotalPrice()/100;
+    }
+
+    public void applyPromo(Promotion promo, Customer customer) throws InvalidApplyPromoException {
+        if (!promo.isMinimumPriceEligible(this)) throw new InvalidApplyPromoException(promo.getPromoCode());
+        if (!promo.isCustomerEligible(customer)) throw new InvalidApplyPromoException(promo.getPromoCode());
+        Date currentDate = new Date();
+        if (!currentDate.after(promo.getEnd()) || !currentDate.before(promo.getBegin())){
+            this.setPromotion(promo);
+            this.getPromotion().setTotalDiscount(this.getPromotion().getDiscountPercent() * this.getTotalPrice()/100);
+            System.out.println("APPLY_PROMO SUCCESS: " + promo.getPromoCode());
+        }else{
+            throw new InvalidApplyPromoException(promo.getPromoCode() + " is EXPIRED");
+        }
     }
 
 }

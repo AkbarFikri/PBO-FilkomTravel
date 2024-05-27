@@ -9,6 +9,7 @@ public abstract class Vehicle {
     protected int price;
 
     protected Vehicle(String id, String name, String platNumber, int price) {
+        this.id = id;
         this.name = name;
         this.platNumber = platNumber;
         this.price = price;

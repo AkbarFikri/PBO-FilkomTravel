@@ -1,14 +1,16 @@
 package domain;
 import java.util.Date;
 
+import java.util.Date;
+
 public abstract class Promotion implements Applicable, Comparable<Promotion>{
     private String promoCode;
     private Date begin;
     private Date end;
+    int totalDiscount;
     int discountPercent;
     int maxDiscount;
     int minimumPurchase;
-
 
     public Promotion (String promoCode, Date begin, Date end, int discountPercent, int maxDiscount, int minimumPurchase){
         this.promoCode = promoCode;
@@ -41,5 +43,13 @@ public abstract class Promotion implements Applicable, Comparable<Promotion>{
 
     public int getMinimumPurchase() {
         return minimumPurchase;
+    }
+
+    public int getTotalDiscount() {
+        return totalDiscount;
+    }
+
+    public void setTotalDiscount(int totalDiscount) {
+        this.totalDiscount = totalDiscount;
     }
 }

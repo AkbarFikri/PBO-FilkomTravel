@@ -3,6 +3,8 @@ package entity.promotion;
 import domain.Customer;
 import domain.Promotion;
 import entity.Guest;
+import entity.Member;
+import entity.Order;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -13,29 +15,30 @@ public class PercentOffPromo extends Promotion {
     }
 
     @Override
-    public boolean isCustomerEligible(Customer x) {
+    public boolean isCustomerEligible(Object x) {
         if (x instanceof Guest) {
             return false;
-        } else {
+        } else if (x instanceof Member member) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(x.getDate);
-            //kayaknya harus dikasih date di customer
+            calendar.setTime(member.getRegistrationDate());
+
             calendar.add(Calendar.DAY_OF_YEAR, 30);
 
             Date currentDate = new Date();
 
-            if (!currentDate.after(calendar.getTime()) || currentDate.after(getEnd()) || currentDate.before(getBegin())){
+            if (!currentDate.after(calendar.getTime())) {
                 return false;
             }
 
-            return isMinimumPriceEligible(x);
+            return true;
+        } else {
+            return false;
         }
-
     }
 
     @Override
-    public boolean isMinimumPriceEligible(Customer x) {
-        if (x.getLastOrder().getSubTotalPrice()>getMinimumPurchase()){
+    public boolean isMinimumPriceEligible(Object x) {
+        if (x instanceof Order order && order.getSubTotalPrice() > super.getMinimumPurchase()){
             return true;
         }else{
             return false;

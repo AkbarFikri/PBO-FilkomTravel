@@ -8,7 +8,6 @@ import domain.Customer;
 import domain.Vehicle;
 
 public class Guest extends Customer {
-
     public Guest(String id, int firstBalance) {
         super("Guest", id, firstBalance);
     }
@@ -17,7 +16,7 @@ public class Guest extends Customer {
     public void makeOrder(Vehicle vehicle, int qty, int year, int month, int date) {
         Order order = new Order();
         order.addItems(vehicle, qty, year, month, date);
-
+        super.orders.add(order);
         if (qty == 1) {
             System.out.println("ADD_TO_CART SUCCESS: " + qty + " day " + vehicle.getName() + " "
                     + vehicle.getPlatNumber() + " (NEW)");
@@ -32,7 +31,7 @@ public class Guest extends Customer {
         getLastOrder().addItems(vehicle, qty, year, month, date);
 
         if (qty == 1) {
-            System.out.println("ADD_TO_CART SUCCESS: " + qty + " day " + vehicle.getName() + " "
+            System.out.println("ADD_TO_CART SUCCESS: " + qty+ " day " + vehicle.getName() + " "
                     + vehicle.getPlatNumber() + " (NEW)");
         } else {
             System.out.println("ADD_TO_CART SUCCESS: " + qty + " days " + vehicle.getName() + " "
@@ -41,7 +40,7 @@ public class Guest extends Customer {
     }
 
     @Override
-    public void print() {
+    public void printLastOrder() {
         System.out.println("Kode Pemesan: " + getId());
         System.out.println("Nama: " + getName());
         System.out.println("Nomor Pesanan: ");
@@ -53,31 +52,32 @@ public class Guest extends Customer {
         symbols.setGroupingSeparator('.');
         DecimalFormat formatter = new DecimalFormat("###,###.##", symbols);
 
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
         System.out.printf("%3s | %-25s | %3s | %8s%n", "No", "Menu", "Dur.", "Subtotal");
         System.out.println("===============================================================");
         int i = 1;
         for (OrderItem orderitem : getLastOrder().getOrderItems()) {
-            String menu = orderitem.getVehicle().getName().length() >= 20
-                    ? orderitem.getVehicle().getName().substring(0, 20)
-                    : orderitem.getVehicle().getName();
+            String menu = orderitem.getVehicle().getName().length() >= 20 ? orderitem.getVehicle().getName().substring(0, 20) : orderitem.getVehicle().getName();
             String subtotal = formatter.format(orderitem.getVehicle().getPrice() * orderitem.getRentalTime());
             System.out.printf("%3d | %-25s | %3d | %8s%n", i, menu, orderitem.getRentalTime(), subtotal);
-            System.out.printf("%5s%s%5s%n", "", orderitem.getDate(), " - ", orderitem.getEnd());
+            System.out.printf("%5s%s%5s%n", sdf2.format(orderitem.getDate()), " - ", sdf2.format(orderitem.getEnd()));
             i++;
         }
         System.out.println("===============================================================");
         String subtotal = formatter.format(getLastOrder().countSubTotal());
         String total = formatter.format(getLastOrder().countSubTotal());
-        String balance = formatter.format(getBalance() - getLastOrder().countSubTotal());
+        String balance = formatter.format(getLastOrder().isCheckOut() ? getBalance() : getBalance() - getLastOrder().countSubTotal());
 
-        System.out.printf("%-32s: %14s%n", "Total", subtotal);
-        if (getLastOrder().isCheckOut()) {
-            // String discount = formatter.format(/*apply promo di sini */);
-            System.out.printf("%-27s: %9s%n", "PROMO"/* , discount */);
-        }
+        System.out.printf("%-32s: %14s%n", "Sub Total", subtotal);
+        System.out.println("===============================================================");
 
         System.out.printf("%-32s: %14s%n", "Total", total);
-        System.out.printf("%-32s: %14s%n", "Sisa saldo", balance); // bukan Sisa saldo
+        if (getLastOrder().getPromotion() != null) {
+            String discount = formatter.format(getLastOrder().getTotalDiscount());
+            System.out.printf("%-27s: %9s%n", "PROMO: " + this.getLastOrder().getPromotion().getPromoCode(), discount);
+        }
+        System.out.printf("%-32s: %14s%n", "Saldo", balance);
+
         System.out.println("");
     }
 
@@ -86,16 +86,21 @@ public class Guest extends Customer {
         System.out.println("Kode Pemesan: " + getId());
         System.out.println("Nama: " + getName());
         System.out.println("Saldo: " + getBalance());
-        System.out.printf("%4s | %10s | %5s | %5s | %8s | %-8s%n", "No", "Nomor Pesanan", "Motor", "Mobil", "Subtotal",
-                "PROMO");
+        System.out.printf("%4s | %10s | %5s | %5s | %8s | %-8s%n", "No", "Nomor Pesanan", "Motor", "Mobil", "Subtotal", "PROMO");
         System.out.println("===============================================================");
         int i = 1;
         for (Order order : orders) {
-            for (OrderItem orderitem : order.getOrderItems()) {
-                System.out.printf("%4d %11d %5d | %5d | %8d | %-8s%n", i++/*
-                                                                           * , nomorPesanan, jumlahMotor, jumlahMobil,
-                                                                           * totalHarga, promoCode
-                                                                           */);
+            if (order.isCheckOut()) {
+                int mobil = 0;
+                int motor = 0;
+                for (OrderItem orderitem : order.getOrderItems()) {
+                    if (orderitem.getVehicle() instanceof Motorcycle) {
+                        motor++;
+                    } else {
+                        mobil++;
+                    }
+                }
+                System.out.printf("%4d| %11d | %5d | %5d | %8d | %-8s\n", i, order.getOrderNum(), motor, mobil, order.getSubTotalPrice(), order.getPromotion().getPromoCode());
             }
         }
         System.out.println("===============================================================");
