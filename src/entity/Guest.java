@@ -45,7 +45,7 @@ public class Guest extends Customer {
         System.out.println("Nama: " + getName());
         if (getLastOrder().isCheckOut()) {
             System.out.println("Nomor Pesanan: " + getLastOrder().getOrderNum());
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
             System.out.println("Tanggal Pesanan: " + sdf.format(getLastOrder().getOrderDate()));
         }
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
