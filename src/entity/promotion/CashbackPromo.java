@@ -19,7 +19,7 @@ public class CashbackPromo extends Promotion {
     }
 
     @Override
-    public boolean isCustomerEligible(Customer x) {
+    public boolean isCustomerEligible(Object x) {
         if (x instanceof Guest) {
             return false;
         } else if (x instanceof Member member) {

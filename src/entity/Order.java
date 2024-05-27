@@ -25,26 +25,6 @@ public class Order {
         return orderItems;
     }
 
-    public int getSubTotalPrice() {
-        return subTotalPrice;
-    }
-
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    public Promotion getPromotion() {
-        return promotion;
-    }
-
-    public void setPromotion(Promotion promotion) {
-        this.promotion = promotion;
-    }
-
-    public void setCheckOut(boolean checkOut) {
-        isCheckOut = checkOut;
-    }
-
     public void addItems(Vehicle vehicle, int qty, int year, int month, int date) {
         orderItems.add(new OrderItem(vehicle, qty, year, month, date));
     }

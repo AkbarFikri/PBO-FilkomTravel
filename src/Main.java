@@ -1,14 +1,10 @@
 /*
 * NIM DAN NAMA ANGGOTA KELOMPOK :
 * 1. 235150201111058 Akbar Fikri Abdillah
-* 2. 235150201111 (NAMA KALIAN BROK) <-- NIMNYA LOM LENGKAP YAH
-* 3. 235150201111 (NAMA KALIAN BROK) <-- NIMNYA LOM LENGKAP YAH
+* 2. 235150201111055 Martinus Delvin
+* 3. 235150201111065 Benedictus Giri Cahya Saputra
 */
 
-//import domain.Customer;
-//import domain.Promotion;
-//import domain.Vehicle;
-//gatau knp gabisa import ntar coba di cek di IDE kalian
 import domain.*;
 import entity.*;
 import entity.promotion.CashbackPromo;
@@ -20,14 +16,8 @@ import utils.customException.InvalidApplyPromoException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
-/*
-* NOTE DARI AKBAR
-* JANGAN LUPA TERAPIN PER PBO AN YAK GES JADI BANYAK BANYAK GUNAIN METHOD METHOD DI DALEM CLASS,
-* BTW ITU KALIAN TETEP BOLEH BIKIN METHOD METHOD YANG DI PERLUIN YAKK
-* */
 public class Main {
     static Scanner keyboard = new Scanner(System.in);
     static int nomorPesanan = 1;
