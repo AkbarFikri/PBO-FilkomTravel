@@ -40,10 +40,8 @@ public class Order {
 
     public void countTotal() {
         countSubTotal();
-        int dumpSubTotal = 0;
         if (promotion instanceof PercentOffPromo){
             totalPrice = subTotalPrice - (subTotalPrice*promotion.getDiscountPercent()/100);
-            //berarti harga ubah jadi double???
         }else {
             totalPrice = subTotalPrice;
         }
@@ -100,10 +98,6 @@ public class Order {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
-    }
-
-    public int getTotalDiscount() {
-        return this.getPromotion().getDiscountPercent() * this.getTotalPrice()/100;
     }
 
     public void applyPromo(Promotion promo, Customer customer) throws InvalidApplyPromoException {

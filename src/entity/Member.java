@@ -83,15 +83,16 @@ public class Member extends Customer {
         }
         System.out.println("===============================================================");
         String subtotal = formatter.format(getLastOrder().countSubTotal());
-        String total = formatter.format(getLastOrder().countSubTotal());
-        String balance = formatter.format(getLastOrder().isCheckOut() ? getBalance() : getBalance() - getLastOrder().countSubTotal());
+        this.getLastOrder().countTotal();
+        String total = formatter.format(getLastOrder().getTotalPrice());
+        String balance = formatter.format(this.getBalance());
 
         System.out.printf("%-32s: %14s%n", "Sub Total", subtotal);
         System.out.println("===============================================================");
 
         System.out.printf("%-32s: %14s%n", "Total", total);
         if (getLastOrder().getPromotion() != null) {
-            String discount = formatter.format(getLastOrder().getTotalDiscount());
+            String discount = formatter.format(getLastOrder().getPromotion().getTotalCashback(this.getLastOrder()));
             System.out.printf("%-27s: %9s%n", "PROMO: " + this.getLastOrder().getPromotion().getPromoCode(), discount);
         }
         System.out.printf("%-32s: %14s%n", "Saldo", balance);

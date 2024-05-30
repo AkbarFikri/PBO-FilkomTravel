@@ -1,5 +1,7 @@
 package domain;
 
+import entity.Order;
+
 public interface Applicable {
     boolean isCustomerEligible(Object x);
 
@@ -9,7 +11,7 @@ public interface Applicable {
 
     double getTotalPrice(Object x);
 
-    double getTotalCashback();
+    double getTotalCashback(Order order);
 
     double getTotalShippingFee();
 }
