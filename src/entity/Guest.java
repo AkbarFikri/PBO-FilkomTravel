@@ -3,11 +3,9 @@ package entity;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import domain.Customer;
 import domain.Vehicle;
-import entity.promotion.CashbackPromo;
-import entity.promotion.PercentOffPromo;
+
 
 public class Guest extends Customer {
     public Guest(String id, int firstBalance) {
@@ -44,7 +42,7 @@ public class Guest extends Customer {
     @Override
     public void printOrder(Order order) {
         System.out.println("Kode Pemesan: " + getId());
-        System.out.println("Nama: " + getName());
+        System.out.println("Nama: " + "NON-MEMBER");
         if (getLastOrder().isCheckOut()) {
             System.out.println("Nomor Pesanan: " + order.getOrderNum());
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
@@ -73,16 +71,6 @@ public class Guest extends Customer {
         String balance = formatter.format(this.getBalance());
 
         System.out.printf("%-32s: %15s\n", "Sub Total", subtotal);
-        if (order.getPromotion() != null) {
-            if (this.getLastOrder().getPromotion() instanceof CashbackPromo) {
-                String discount = formatter.format(order.getPromotion().getTotalCashback(order));
-                System.out.printf("%-32s: %15s\n", "PROMO: " + order.getPromotion().getPromoCode(), discount);
-            } else if (this.getLastOrder().getPromotion() instanceof PercentOffPromo) {
-                String discount = formatter.format(order.getPromotion().getTotalDiscount());
-                System.out.printf("%-32s: %15s\n", "PROMO: " + order.getPromotion().getPromoCode(), "-" + discount);
-            }
-
-        }
         System.out.println("==================================================");
 
         System.out.printf("%-32s: %15s%n", "Total", total);
