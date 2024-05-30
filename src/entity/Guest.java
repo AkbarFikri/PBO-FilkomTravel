@@ -74,7 +74,7 @@ public class Guest extends Customer {
 
         System.out.printf("%-32s: %14s%n", "Total", total);
         if (getLastOrder().getPromotion() != null) {
-            String discount = formatter.format(getLastOrder().getTotalDiscount());
+            String discount = formatter.format(getLastOrder().getPromotion().getTotalDiscount());
             System.out.printf("%-27s: %9s%n", "PROMO: " + this.getLastOrder().getPromotion().getPromoCode(), discount);
         }
         System.out.printf("%-32s: %14s%n", "Saldo", balance);

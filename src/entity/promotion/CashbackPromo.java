@@ -62,8 +62,12 @@ public class CashbackPromo extends Promotion {
     }
 
     @Override
-    public double getTotalCashback() {
-        return 0;
+    public double getTotalCashback(Order order) {
+        Order dumpOrder = order;
+        int cashback = super.getDiscountPercent() * dumpOrder.getSubTotalPrice()/100;
+        if (cashback > super.getMaxDiscount()) cashback = super.getMaxDiscount();
+        dumpOrder.getPromotion().setTotalDiscount(cashback);
+        return cashback;
     }
 
     @Override

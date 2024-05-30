@@ -1,6 +1,6 @@
 package domain;
 import java.util.Date;
-
+import entity.*;
 import java.util.Date;
 
 public abstract class Promotion implements Applicable, Comparable<Promotion>{
@@ -45,9 +45,7 @@ public abstract class Promotion implements Applicable, Comparable<Promotion>{
         return minimumPurchase;
     }
 
-    public int getTotalDiscount() {
-        return totalDiscount;
-    }
+    public int getTotalDiscount() {return totalDiscount;}
 
     public void setTotalDiscount(int totalDiscount) {
         this.totalDiscount = totalDiscount;

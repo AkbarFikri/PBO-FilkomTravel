@@ -97,9 +97,9 @@ public abstract class Customer {
         dumpOrder.countTotal();
         if (dumpOrder.getTotalPrice() < balance){
             if (dumpOrder.getPromotion() instanceof CashbackPromo){
-                int cashback = dumpOrder.getPromotion().getDiscountPercent() * dumpOrder.getTotalPrice()/100;
+                int cashback = dumpOrder.getPromotion().getDiscountPercent() * dumpOrder.getSubTotalPrice()/100;
                 if (cashback > dumpOrder.getPromotion().maxDiscount) cashback = dumpOrder.getPromotion().maxDiscount;
-                balance = balance - dumpOrder.getTotalPrice() + cashback;
+                balance = balance - dumpOrder.getSubTotalPrice() + cashback;
                 dumpOrder.getPromotion().setTotalDiscount(cashback);
                 dumpOrder.setCheckOut(true);
             }else {

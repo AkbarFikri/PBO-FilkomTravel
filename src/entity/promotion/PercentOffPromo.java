@@ -56,7 +56,7 @@ public class PercentOffPromo extends Promotion {
     }
 
     @Override
-    public double getTotalCashback() {
+    public double getTotalCashback(Order order) {
         return 0;
     }
 
