@@ -111,8 +111,8 @@ public abstract class Customer {
         }
     }
 
-    public abstract void printLastOrder();
+    public abstract void printOrder(Order order);
 
-    public abstract void printHistory();
+    public abstract void printOrder();
 
 }

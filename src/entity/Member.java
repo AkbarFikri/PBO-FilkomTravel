@@ -9,6 +9,8 @@ import java.util.Date;
 
 import domain.Customer;
 import domain.Vehicle;
+import entity.promotion.CashbackPromo;
+import entity.promotion.PercentOffPromo;
 
 public class Member extends Customer {
     Date registrationDate;
@@ -57,13 +59,13 @@ public class Member extends Customer {
     }
 
     @Override
-    public void printLastOrder() {
+    public void printOrder(Order order) {
         System.out.println("Kode Pemesan: " + getId());
         System.out.println("Nama: " + getName());
         if (getLastOrder().isCheckOut()) {
-            System.out.println("Nomor Pesanan: " + getLastOrder().getOrderNum());
+            System.out.println("Nomor Pesanan: " + order.getOrderNum());
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
-            System.out.println("Tanggal Pesanan: " + sdf.format(getLastOrder().getOrderDate()));
+            System.out.println("Tanggal Pesanan: " + sdf.format(order.getOrderDate()));
         }
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator(',');
@@ -71,42 +73,48 @@ public class Member extends Customer {
         DecimalFormat formatter = new DecimalFormat("###,###.##", symbols);
 
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
-        System.out.printf("%3s | %-25s | %3s | %8s%n", "No", "Menu", "Dur.", "Subtotal");
-        System.out.println("===============================================================");
+        System.out.printf("%3s | %-25s | %3s | %8s \n", "No", "Menu", "Dur.", "Subtotal");
+        System.out.println("==================================================");
         int i = 1;
-        for (OrderItem orderitem : getLastOrder().getOrderItems()) {
+        for (OrderItem orderitem : order.getOrderItems()) {
             String menu = orderitem.getVehicle().getName().length() >= 20 ? orderitem.getVehicle().getName().substring(0, 20) : orderitem.getVehicle().getName();
             String subtotal = formatter.format(orderitem.getVehicle().getPrice() * orderitem.getRentalTime());
-            System.out.printf("%3d | %-25s | %3d | %8s%n", i, menu, orderitem.getRentalTime(), subtotal);
-            System.out.printf("%5s%s%5s%n", sdf2.format(orderitem.getDate()), " - ", sdf2.format(orderitem.getEnd()));
+            System.out.printf("%3d | %-25s | %4d | %8s \n", i, menu, orderitem.getRentalTime(), subtotal);
+            System.out.printf("%5s %5s\n", " ", sdf2.format(orderitem.getDate()) + " - " + sdf2.format(orderitem.getEnd()));
             i++;
         }
-        System.out.println("===============================================================");
-        String subtotal = formatter.format(getLastOrder().countSubTotal());
-        this.getLastOrder().countTotal();
-        String total = formatter.format(getLastOrder().getTotalPrice());
+        System.out.println("==================================================");
+        String subtotal = formatter.format(order.countSubTotal());
+        order.countTotal();
+        String total = formatter.format(order.getTotalPrice());
         String balance = formatter.format(this.getBalance());
 
-        System.out.printf("%-32s: %14s%n", "Sub Total", subtotal);
-        System.out.println("===============================================================");
+        System.out.printf("%-32s: %15s\n", "Sub Total", subtotal);
+        if (order.getPromotion() != null) {
+            if (this.getLastOrder().getPromotion() instanceof CashbackPromo) {
+                String discount = formatter.format(order.getPromotion().getTotalCashback(order));
+                System.out.printf("%-32s: %15s\n", "PROMO: " + order.getPromotion().getPromoCode(), discount);
+            } else if (this.getLastOrder().getPromotion() instanceof PercentOffPromo) {
+                String discount = formatter.format(order.getPromotion().getTotalDiscount());
+                System.out.printf("%-32s: %15s\n", "PROMO: " + order.getPromotion().getPromoCode(), "-" + discount);
+            }
 
-        System.out.printf("%-32s: %14s%n", "Total", total);
-        if (getLastOrder().getPromotion() != null) {
-            String discount = formatter.format(getLastOrder().getPromotion().getTotalCashback(this.getLastOrder()));
-            System.out.printf("%-27s: %9s%n", "PROMO: " + this.getLastOrder().getPromotion().getPromoCode(), discount);
         }
-        System.out.printf("%-32s: %14s%n", "Saldo", balance);
+        System.out.println("==================================================");
 
-        System.out.println("");
+        System.out.printf("%-32s: %15s%n", "Total", total);
+        System.out.printf("%-32s: %15s%n", "Saldo", balance);
+
+        System.out.println();
     }
 
     @Override
-    public void printHistory() {
-        System.out.println("Kode Pemesan: " + getId());
-        System.out.println("Nama: " + getName());
+    public void printOrder() {
+        System.out.println("Kode Pemesan: " + this.getId());
+        System.out.println("Nama: " + this.getName());
         System.out.println("Saldo: " + getBalance());
-        System.out.printf("%4s | %10s | %5s | %5s | %8s | %-8s%n", "No", "Nomor Pesanan", "Motor", "Mobil", "Subtotal", "PROMO");
-        System.out.println("===============================================================");
+        System.out.printf("%4s| %10s | %5s | %5s | %8s | %-8s%n", "No", "Nomor Pesanan", "Motor", "Mobil", "Subtotal", "PROMO");
+        System.out.println("==========================================================");
         int i = 1;
         for (Order order : orders) {
             if (order.isCheckOut()) {
@@ -119,9 +127,9 @@ public class Member extends Customer {
                         mobil++;
                     }
                 }
-                System.out.printf("%4d| %11d | %5d | %5d | %8d | %-8s\n", i, order.getOrderNum(), motor, mobil, order.getSubTotalPrice(), order.getPromotion().getPromoCode());
+                System.out.printf("%4d| %13d | %5d | %5d | %8d | %-8s\n", i, order.getOrderNum(), motor, mobil, order.getSubTotalPrice(), order.getPromotion() != null ? order.getPromotion().getPromoCode() : "-");
             }
         }
-        System.out.println("===============================================================");
+        System.out.println("==========================================================");
     }
 }

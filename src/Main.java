@@ -38,8 +38,8 @@ public class Main {
 
         for (int i = 0; i < inputs.size(); i++) {
             String[] commands = inputs.get(i).split(" ");
-
-            switch (commands[0]) {
+            System.out.println(commands[0]);
+            switch (commands[0].trim()) {
                 case "CREATE":
                     if (commands[1].equalsIgnoreCase("MEMBER")) {
                         String[] datas = commands[2].split("\\|");
@@ -201,6 +201,7 @@ public class Main {
                         Customer dumpUser2 = getCustomerById(commands[1]);
                         OrderItem dumpOrderItem = dumpUser2.getLastOrder().getOrderItemById(commands[2]);
                         if (dumpOrderItem == null) throw new NullPointerException();
+                        dumpOrderItem.decreaseDate(Integer.parseInt(commands[3]));
                         if (dumpOrderItem.getRentalTime() <= 0) {
                             dumpUser2.getLastOrder().deleteItemById(dumpOrderItem.getVehicle().getId());
                             System.out.println("REMOVE_FROM_CART SUCCESS: " + dumpOrderItem.getVehicle().getName() + " IS REMOVED");
@@ -222,7 +223,6 @@ public class Main {
                     } catch (NullPointerException e) {
                         System.out.println("APPLY_PROMO FAILED: NON EXISTENT CUSTOMER OR PROMO");
                     }
-
                     break;
                 case "TOPUP":
                     try {
@@ -245,20 +245,20 @@ public class Main {
                         System.out.println("CHECK_OUT FAILED: NON EXISTENT CUSTOMER");
                     }
                     break;
-                case "PRINT":
-                    try {
-                        Customer dumpUser5 = getCustomerById(commands[1]);
-                        dumpUser5.printLastOrder();
-                    } catch (NullPointerException e) {
-                        System.out.println("PRINT FAILED: NON EXISTENT CUSTOMER");
-                    }
-                    break;
                 case "PRINT_HISTORY":
                     try {
                         Customer dumpUser6 = getCustomerById(commands[1]);
-                        dumpUser6.printHistory();
+                        dumpUser6.printOrder();
                     } catch (NullPointerException e) {
                         System.out.println("PRINT_HISTORY FAILED: NON EXISTENT CUSTOMER");
+                    }
+                    break;
+                case "PRINT":
+                    try {
+                        Customer dumpUser5 = getCustomerById(commands[1]);
+                        dumpUser5.printOrder(dumpUser5.getLastOrder());
+                    } catch (NullPointerException e) {
+                        System.out.println("PRINT FAILED: NON EXISTENT CUSTOMER");
                     }
                     break;
             }

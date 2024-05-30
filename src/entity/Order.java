@@ -42,6 +42,7 @@ public class Order {
         countSubTotal();
         if (promotion instanceof PercentOffPromo){
             totalPrice = subTotalPrice - (subTotalPrice*promotion.getDiscountPercent()/100);
+            this.promotion.setTotalDiscount(subTotalPrice*promotion.getDiscountPercent()/100);
         }else {
             totalPrice = subTotalPrice;
         }
