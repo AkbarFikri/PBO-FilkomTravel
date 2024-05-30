@@ -1,13 +1,9 @@
 package entity;
 
-//import domain.Customer;
-//import domain.Promotion;
-
 import domain.*;
 import entity.promotion.PercentOffPromo;
 import utils.customException.InvalidApplyPromoException;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -33,7 +29,6 @@ public class Order {
         return isCheckOut;
     }
 
-    // CO blm jadi gatau knp error
     public int countSubTotal() {
         int dumpTotal = 0;
         for (int i = 0; i < orderItems.size(); i++) {
@@ -60,7 +55,7 @@ public class Order {
                 return orderItems.get(i);
             }
         }
-        return null;
+        throw new NullPointerException();
     }
 
     public void deleteItemById(String MenuId) {

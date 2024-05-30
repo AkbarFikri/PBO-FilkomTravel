@@ -165,12 +165,7 @@ public class Main {
                         Customer dumpUser = getCustomerById(commands[1]);
                         String[] dateTemp = commands[4].split("/");
                         Vehicle vehicle = getVehicleById(commands[2]);
-
-                        if (dumpUser == null) throw new NullPointerException();
-                        if (vehicle == null) throw new NullPointerException();
-
                         boolean checkOrderItemExist = dumpUser.isOrderItemExistInLastOrder(commands[2]);
-
                         if (dumpUser.orders.isEmpty() || dumpUser.getLastOrder().isCheckOut()) {
                             dumpUser.makeOrder(vehicle,
                                     Integer.parseInt(commands[3]),
@@ -204,10 +199,8 @@ public class Main {
                 case "REMOVE_FROM_CART":
                     try {
                         Customer dumpUser2 = getCustomerById(commands[1]);
-                        if (dumpUser2 == null) throw new NullPointerException();
                         OrderItem dumpOrderItem = dumpUser2.getLastOrder().getOrderItemById(commands[2]);
                         if (dumpOrderItem == null) throw new NullPointerException();
-                        dumpOrderItem.decreaseDate(Integer.parseInt(commands[3]));
                         if (dumpOrderItem.getRentalTime() <= 0) {
                             dumpUser2.getLastOrder().deleteItemById(dumpOrderItem.getVehicle().getId());
                             System.out.println("REMOVE_FROM_CART SUCCESS: " + dumpOrderItem.getVehicle().getName() + " IS REMOVED");
@@ -223,10 +216,6 @@ public class Main {
                     try {
                         Customer dumpUser3 = getCustomerById(commands[1]);
                         Promotion dumpPromo = getPromotionByCode(commands[2]);
-
-                        if (dumpUser3 == null) throw new NullPointerException();
-                        if (dumpPromo == null) throw new NullPointerException();
-
                         dumpUser3.getLastOrder().applyPromo(dumpPromo, dumpUser3);
                     } catch (InvalidApplyPromoException e) {
                         System.out.println("APPLY_PROMO FAILED: " + e.getMessage());
@@ -238,7 +227,6 @@ public class Main {
                 case "TOPUP":
                     try {
                         Customer dumpUser4 = getCustomerById(commands[1]);
-                        if (dumpUser4 == null) throw new NullPointerException();
                         int before = dumpUser4.getBalance();
                         dumpUser4.setBalance(before + Integer.parseInt(commands[2]));
                         System.out.println("TOPUP SUCCESS: " + dumpUser4.getName() + " " + before + "=>" + dumpUser4.getBalance());
@@ -249,7 +237,6 @@ public class Main {
                 case "CHECK_OUT":
                     try {
                         Customer dumpuser5 = getCustomerById(commands[1]);
-                        if (dumpuser5 == null) throw new NullPointerException();
                         dumpuser5.checkOut(nomorPesanan++);
                         System.out.println("CHECK_OUT SUCCESS: " + dumpuser5.getLastOrder().getOrderNum() + " " + dumpuser5.getName());
                     } catch (InsufficientBalanceException e) {
@@ -261,9 +248,6 @@ public class Main {
                 case "PRINT":
                     try {
                         Customer dumpUser5 = getCustomerById(commands[1]);
-
-                        if (dumpUser5 == null) throw new NullPointerException();
-
                         dumpUser5.printLastOrder();
                     } catch (NullPointerException e) {
                         System.out.println("PRINT FAILED: NON EXISTENT CUSTOMER");
@@ -272,9 +256,6 @@ public class Main {
                 case "PRINT_HISTORY":
                     try {
                         Customer dumpUser6 = getCustomerById(commands[1]);
-
-                        if (dumpUser6 == null) throw new NullPointerException();
-
                         dumpUser6.printHistory();
                     } catch (NullPointerException e) {
                         System.out.println("PRINT_HISTORY FAILED: NON EXISTENT CUSTOMER");
@@ -329,7 +310,7 @@ public class Main {
                 return c;
             }
         }
-        return null;
+        throw new NullPointerException();
     }
 
     public static Vehicle getVehicleById(String id) {
@@ -338,7 +319,7 @@ public class Main {
                 return v;
             }
         }
-        return null;
+        throw new NullPointerException();
     }
 
     public static Promotion getPromotionByCode (String code) {
@@ -347,7 +328,7 @@ public class Main {
                 return c;
             }
         }
-        return null;
+        throw new NullPointerException();
     }
 
     public static void createMember(String[] datas) {
